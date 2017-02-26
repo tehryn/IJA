@@ -14,6 +14,21 @@ public class Card
         DIAMONDS,   // Diamonds (kary).
         HEARTS,     // Hearts (srdce).
         SPADES;      //Spides (piky).
+        
+        public String toString(){
+            switch(this){
+                case CLUBS:
+                    return "C";
+                case DIAMONDS:
+                    return "D";
+                case HEARTS:
+                    return "H";
+                case SPADES:
+                    return "S";
+                default:
+                    return "ERROR";
+            }
+        }
     };
     private int value; /** Hodnota karty. */
 
@@ -91,7 +106,7 @@ public class Card
     
     public String toString()
     {
-        return (cardValueToString() + "(" + cardColorToString() + ")");
+        return (this.cardValueToString() + "(" + this.color.toString() + ")");
     }
 }
 
