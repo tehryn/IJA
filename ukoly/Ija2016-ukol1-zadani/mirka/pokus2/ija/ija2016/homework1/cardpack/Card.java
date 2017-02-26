@@ -15,8 +15,25 @@ public class Card
         HEARTS,     // Hearts (srdce).
         SPADES;      //Spides (piky).
     };
-    public int value; /** Barva karty. */
-    Card.Color color; /** Hodnota karty. */
+    private int value; /** Hodnota karty. */
+
+    /**
+     * Hodnota karty.
+     * @return Vraci hodnotu karty.
+     */
+    public int value(){
+        return this.value;
+    }
+    
+    private Card.Color color; /** Barva karty. */
+
+    /**
+     * Barva karty.
+     * @return Vraci barvu karty.
+     */
+    public Card.Color color(){
+        return this.color;
+    }
     
     /** Konstruktor nastavujici barvu a hodnotu karty. */
     public Card(Card.Color c, int value){ 

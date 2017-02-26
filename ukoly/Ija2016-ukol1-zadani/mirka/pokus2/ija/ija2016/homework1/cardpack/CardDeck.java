@@ -6,7 +6,16 @@ import ija.ija2016.homework1.cardpack.Card;
  */
 public class CardDeck
 {
-    public int size; /** Aktualni pocet karet v balicku. */
+    private int size; /** Aktualni pocet karet v balicku. */
+
+    /**
+     * Aktualni pocet karet v balicku.
+     * @return Vraci pocet karet v balicku.
+     */
+    public int size(){
+        return this.size;
+    }
+    
     protected Card[] StackOfCards;
     
     /** Vytvori a inicializuje balicek karet. 

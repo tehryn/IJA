@@ -7,7 +7,16 @@ import ija.ija2016.homework1.cardpack.Card;
  */
 public class CardStack{
     
-    public int size; /** Aktualni pocet karet v zasobniku. */
+    private int size; /** Aktualni pocet karet v zasobniku. */
+
+    /**
+     * Aktualni pocet karet v zasobniku.
+     * @return Vraci pocet karet.
+     */
+    public int size(){
+        return this.size;
+    }
+    
     protected Card[] StackOfCards;
     
     /** Vytvori a inicializuje zasobnik karet.
