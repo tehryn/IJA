@@ -70,7 +70,7 @@ public class CardStack{
         
         for (; i<this.size; i++)
         {
-            if (Card.equalsCards(card, this.StackOfCards[i]))
+            if (card.equalsCards(card, this.StackOfCards[i]))
                 break;
         }
         if (i>=this.size)
