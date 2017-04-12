@@ -48,14 +48,73 @@ public class Board {
         }
         return true;
     }
+
+    public boolean fromC_toC(int from, int to) {
+        if (color_stacks[to].size() != 0 || color_stacks[from].size() != 1 || to > 3 || from > 3 || from < 0 || to < 0) {
+            return false;
+        }
+        else {
+            return color_stacks[to].push(color_stacks[from].pop());
+        }
+    }
+
+    public boolean fromW_toC(int from, int to) {
+        if (from >= 7 || to >= 4 || from < 0 || to < 0) {
+            return false;
+        }
+        else {
+            Card tmp = working_stacks[from].top();
+            if (color_stacks[to].push(tmp)) {
+                working_stacks[from].pop();
+                working_stacks[from].set_top_visible();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    public boolean fromC_toW(int from, int to) {
+        if (from > 3 || to > 6 || from < 0 || to < 0) {
+            return false;
+        }
+        else if (color_stacks[from].size() > 0) {
+            Card tmp = color_stacks[from].pop();
+            if (working_stacks[to].push(tmp)) {
+                return true;
+            }
+            else {
+                color_stacks[from].push(tmp);
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
+    public void fromH_toV() {
+        if (hidden_deck.size() == 0) {
+            int size = hidden_deck.size();
+            for (int i = 0; i < size; i++) {
+                Card tmp = visible_deck.pop();
+                tmp.make_hidden();
+                hidden_deck.force_push(tmp);
+            }
+        }
+        else {
+            Card tmp = hidden_deck.pop();
+            tmp.make_visible();
+            visible_deck.force_push(tmp);
+        }
+    }
+
     /*
     Board load_game(std::string filename);
     bool save_game(Board game);
     Working_stack *get_stack(unsigned id) {
         return (id<7)?(&(working_stacks[id])):NULL;
     }
-    bool fromC_toC(unsigned from, unsigned to);
-    bool fromW_toC(unsigned from, unsigned to);
-    void fromH_toV();
      */
 }

@@ -18,6 +18,20 @@ public class Working_stack extends Card_stack {
             return false;
         }
     }
+    public boolean push(Card card) {
+        if (this.size() == 0 && card.get_value() == 13) {
+            force_push(card);
+            return true;
+        }
+
+        if ((this.top().get_value() - 1) == card.get_value() && !card.is_similar(this.top())) {
+            force_push(card);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     public Working_stack pop_until(Card card) {
         int i = -1;
         for(i = this.size() - 1; i >= 0; i--) {
