@@ -5,8 +5,9 @@ import java.util.Vector;
 import java.lang.Math;
 
 public class Card_stack {
-    public Vector<Card> stack;
+    protected Vector<Card> stack;
     public Card_stack(){}
+    public int size() { return this.stack.size(); }
     public Card pop_random() {
         int idx = (int) (Math.random() * this.stack.size());
         return this.stack.remove(idx);
