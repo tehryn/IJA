@@ -46,7 +46,7 @@ public class Board {
                 return true;
             }
         }
-        return
+        return true;
     }
     /*
     Board load_game(std::string filename);
