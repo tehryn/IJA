@@ -10,6 +10,4 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/ukoly/Ija2016-ukol1-zadani/mirka/pokus2/ija/nbproject/private/
-/ukoly/Ija2016-ukol1-zadani/mirka/pokus2/ija/dist/
-/ukoly/Ija2016-ukol1-zadani/mirka/pokus2/ija/build/
+test.txt

@@ -6,16 +6,22 @@ import game.Single_color_stack;
 import game.Working_stack;
 import game.Card_deck_hidden;
 import game.Card_deck_visible;
+import java.util.Vector;
+import java.io.Writer;
+import java.io.PrintWriter;
+
 
 public class Board {
     protected Working_stack[] working_stacks    = new Working_stack[7];
     protected Single_color_stack[] color_stacks = new Single_color_stack[4];
-    protected Card_deck_visible visible_deck;
-    protected Card_deck_hidden hidden_deck;
+    protected Card_deck_visible visible_deck    = new Card_deck_visible();
+    protected Card_deck_hidden hidden_deck      = new Card_deck_hidden();
+    protected int score = 0;
     public Board() {}
     public void new_game() {
         Card_stack pack_of_cards = Card_stack.new_deck();
         for (int i = 0; i < 7; i++) {
+            working_stacks[i] = new Working_stack();
             for (int j = 0; j < i + 1; j++) {
                 working_stacks[i].force_push(pack_of_cards.pop_random());
             }
@@ -26,8 +32,35 @@ public class Board {
             hidden_deck.force_push(tmp);
             tmp = pack_of_cards.pop_random();
         }
+        for (int i = 0; i < 4; i++) {
+            color_stacks[i] = new Single_color_stack();
+        }
     }
+    public boolean save_game(String filename) {
+        Vector<String> out = new Vector<String>(14);
+        out.add("" + hidden_deck);
+        out.add("" + visible_deck);
+        for (int i = 0; i < 7; i++) {
+            out.add("" + working_stacks[i]);
+        }
+        for (int i = 0; i < 4; i++) {
+            out.add("" + color_stacks[i]);
+        }
+        out.add("" + score);
+        try {
+            PrintWriter output = new PrintWriter(filename, "ASCII");
+            for (int i = 0; i < out.size(); i++) {
+                System.out.println(out.get(i));
+                output.println(out.get(i));
+                output.flush();
+            }
+            output.close();
 
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
     public boolean fromW_toW(int from, int to, Card card) {
         if (from > 7 || to > 7 || to < 0 || from < 0) {
             return false;
