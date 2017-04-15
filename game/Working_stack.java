@@ -33,22 +33,24 @@ public class Working_stack extends Card_stack {
         }
     }
     public Working_stack pop_until(Card card) {
-        int i = -1;
-        for(i = this.size() - 1; i >= 0; i--) {
-                if (card == this.stack.get(i) && this.stack.get(i).is_visible()) {
-                    break;
-                }
-        }
-        if (i < 0 || !this.stack.get(i).is_visible()) {
-            Working_stack empty = new Working_stack();
-            return empty;
-        }
-        Card compare_to = this.top();
+        Card popped = this.pop();
+        Card on_top = this.top();
         Working_stack new_stack = new Working_stack();
-        while (!(card == compare_to)) {
-            compare_to = pop();
-            new_stack.insert_bottom(compare_to);
+        Working_stack err_stack = new Working_stack();
+        new_stack.force_push(popped);
+        while (!popped.is_similar(on_top) && popped != card && popped.is_visible()) {
+            popped = this.pop();
+            on_top = this.top();
+            new_stack.insert_bottom(popped);
         }
-        return new_stack;
+        if (popped == card) {
+            return new_stack;
+        }
+        else {
+            for (int i = 0; i < new_stack.size(); i++) {
+                force_push(new_stack.pop_bottom());
+            }
+            return err_stack;
+        }
     }
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<project name="Solitare-xmatej52_xmisov00" default="all" basedir=".">
+        <property name="build.dir" location="build" />
+        <property name="doc.dir" location="doc" />
+        <property name="dist.dir" location="bin" />
+        <property name="src.dir" location="." />
+        <target name="clean">
+                <delete dir="${build.dir}" />
+                <delete dir="${doc.dir}" />
+                <delete dir="${dist.dir}" />
+        </target>
+        <target name="makedir">
+                <mkdir dir="${build.dir}" />
+                <mkdir dir="${doc.dir}" />
+                <mkdir dir="${dist.dir}" />
+        </target>
+        <target name="pre-compile" depends="clean, makedir">
+                <javac srcdir="${src.dir}" destdir="${build.dir}" />
+        </target>
+        <target name="run" depends="compile">
+            <java jar="${dist.dir}\xmatej52.jar" fork="true"/>
+        </target>
+        <target name="doc" depends="compile">
+                <javadoc sourcepath="game" destdir="${doc.dir}" />
+        </target>
+        <target name="compile" depends="pre-compile">
+                <jar destfile="${dist.dir}\xmatej52.jar" basedir="${build.dir}">
+                        <manifest>
+                                <attribute name="Main-Class" value="game.Main" />
+                        </manifest>
+                </jar>
+        </target>
+        <target name="all" depends="run, doc">
+                <description>Just do it!!!</description>
+        </target>
+</project>

@@ -40,7 +40,14 @@ public class Card {
     public boolean is_visible() { return this.visibility; }
     public void make_visible() { this.visibility = true; }
     public void make_hidden() { this.visibility = false; }
-    public boolean is_similar(Card card) { return this.color.is_similar(card); }
+    public boolean is_similar(Card card) {
+        if (this.is_visible()) {
+            return this.color.is_similar(card);
+        }
+        else {
+            return false;
+        }
+    }
     public boolean equals(Object x) {
         return (this.value == ((Card)x).value && this.color == ((Card)x).color);
     }
@@ -48,13 +55,11 @@ public class Card {
         return java.util.Objects.hash(this.value, this.color);
     }
     public String toString() {
-        switch(this.value) {
-            case 1  : return "A"  + "(" + this.color.toString() + ")";
-            case 10 : return "10" + "(" + this.color.toString() + ")";
-            case 11 : return "J"  + "(" + this.color.toString() + ")";
-            case 12 : return "Q"  + "(" + this.color.toString() + ")";
-            case 13 : return "K"  + "(" + this.color.toString() + ")";
-            default : return String.valueOf(this.value) + "(" + this.color.toString() + ")";
+        if (this.visibility) {
+            return String.valueOf(this.value) + "(" + this.color.toString() + ")" + "T";
+        }
+        else {
+            return String.valueOf(this.value) + "(" + this.color.toString() + ")" + "F";
         }
     }
 }
