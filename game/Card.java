@@ -1,11 +1,11 @@
 package game;
 
 /**
- * Object representing Card. Card has value, color and visibility. <br/>
- * Value is from 0 to 13, where 0 represents invalid card. <br/>
+ * Object representing Card. Card has value, color and visibility. <br>
+ * Value is from 0 to 13, where 0 represents invalid card. <br>
  * Colors are ERR, CLUBS, DIAMONDS, HEARTS and SPADES, where ERR represents
- * invalid card. <br />
- * Visibility tells if card with its face up or not. Has values true and false. <br />
+ * invalid card. <br>
+ * Visibility tells if card with its face up or not. Has values true and false. <br>
  * For checking validity of card, please use always color and looks for value
  * ERR.
  */
@@ -111,8 +111,8 @@ public class Card {
 
     /**
      * Checks if 2 cards are equal
-     * @param  Object Second card.
-     * @return        True if cards are similar.
+     * @param  x Second card.
+     * @return   True if cards are similar.
      */
     public boolean equals(Object x) {
         return (this.value == ((Card)x).value && this.color == ((Card)x).color);

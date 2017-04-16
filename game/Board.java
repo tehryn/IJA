@@ -20,10 +20,10 @@ import java.io.PrintWriter;
 /**
  * Class representing table with cards. Methods represents all possible moves,
  * player can do. <font color="red" ><b>DO NOT</b></font> use object of this class until you call method
- * new_game() or load_game(String filename).<br/>
- * There are seven working stacks, IDs from 0 to 6,<br/>
- * four color stacks, IDs from 0 to 3,<br/>
- * one visible deck and one hidden deck. <br/>
+ * new_game() or load_game(String filename).<br>
+ * There are seven working stacks, IDs from 0 to 6,<br>
+ * four color stacks, IDs from 0 to 3,<br>
+ * one visible deck and one hidden deck. <br>
  * Object of Board also holds history of moves and current score.
  */
 public class Board {
