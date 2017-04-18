@@ -1,4 +1,4 @@
-package game;
+package src.game;
 
 /**
  * Object representing Card. Card has value, color and visibility. <br>

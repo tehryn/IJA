@@ -1,13 +1,13 @@
-package game;
-import game.Card;
-import game.Card.Color;
-import game.Card_stack;
-import game.Single_color_stack;
-import game.Working_stack;
-import game.Card_deck_hidden;
-import game.Card_deck_visible;
-import game.History;
-import game.Move;
+package src.game;
+import src.game.Card;
+import src.game.Card.Color;
+import src.game.Card_stack;
+import src.game.Single_color_stack;
+import src.game.Working_stack;
+import src.game.Card_deck_hidden;
+import src.game.Card_deck_visible;
+import src.game.History;
+import src.game.Move;
 import java.util.Vector;
 import java.io.Writer;
 import java.io.InputStream;
@@ -145,7 +145,7 @@ public class Board {
                                 case 8:
                                 case 9:
                                 case 10:
-                                    color_stacks[lines].force_push(card);
+                                    color_stacks[lines-7].force_push(card);
                                     break;
                                 /* reading hidden_deck */
                                 case 11:
@@ -300,6 +300,10 @@ public class Board {
         }
         score++;
         history.push(new Move(Move.Type.H, 0, 0, 1));
+    }
+
+    public boolean fromV_toC(int idx) {
+
     }
 
     /**

@@ -1,6 +1,6 @@
-package game;
+package src.game;
 
-import game.Card;
+import src.game.Card;
 import java.util.Vector;
 import java.lang.Math;
 

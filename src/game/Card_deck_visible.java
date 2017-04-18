@@ -1,5 +1,5 @@
-package game;
-import game.Card_stack;
+package src.game;
+import src.game.Card_stack;
 
 /**
  * Represents deck of visible cards.

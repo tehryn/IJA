@@ -1,9 +1,9 @@
-package game;
+package src.game;
 
-import game.Board;
-import game.Move;
-import game.Move.Type;
-import game.Card_stack;
+import src.game.Board;
+import src.game.Move;
+import src.game.Move.Type;
+import src.game.Card_stack;
 import java.util.Vector;
 
 

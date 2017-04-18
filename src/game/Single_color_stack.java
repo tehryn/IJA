@@ -1,7 +1,7 @@
-package game;
-import game.Card;
-import game.Card.Color;
-import game.Card_stack;
+package src.game;
+import src.game.Card;
+import src.game.Card.Color;
+import src.game.Card_stack;
 
 public class Single_color_stack extends Card_stack {
     Color color = Color.ERR;
