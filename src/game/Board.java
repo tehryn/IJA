@@ -302,10 +302,6 @@ public class Board {
         history.push(new Move(Move.Type.H, 0, 0, 1));
     }
 
-    public boolean fromV_toC(int idx) {
-
-    }
-
     /**
      * Converts whole game to string.
      * @return String representing the game.
