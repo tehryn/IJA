@@ -69,6 +69,12 @@ public class Card_stack {
     public void force_push(Card card) {
         this.stack.add(card);
     }
+
+    /**
+     * Retrieve card from top of stack.
+     * @return Card from top, if stack is empty, invalid card is returned
+     *         (Card of color ERR).
+     */
     public Card top() {
         if (this.stack.size() > 0) {
             return this.stack.get(this.stack.size()-1);
@@ -77,6 +83,12 @@ public class Card_stack {
             return new Card(0, Card.Color.ERR);
         }
     }
+
+    /**
+     * Retrieve card from bottom of stack.
+     * @return Card from bottom, if stack is empty, invalid card is returned
+     *         (Card of color ERR).
+     */
     public Card bottom() {
         if (this.stack.size() > 0) {
             return this.stack.get(0);

@@ -321,6 +321,38 @@ public class Board {
     }
 
     /**
+     * Represents move from visible deck to color stack. Pops card from visible
+     * deck and pushes it into specific color stack.
+     * @param  to ID of color stack where card will be pushed.
+     * @return    True on succes otherwise false.
+     */
+    public boolean fromV_toC(int to) {
+        if (to > -1 && to < 7 && color_stacks[to].push(visible_deck.top())) {
+            visible_deck.pop();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Represents move from visible deck to working stack. Pops card from visible
+     * deck and pushes it into specific working stack.
+     * @param  to ID of working stack where card will be pushed.
+     * @return    True on succes otherwise false.
+     */
+    public boolean fromV_toW(int to) {
+        if (to > -1 && to < 4 && working_stacks[to].push(visible_deck.top())) {
+            visible_deck.pop();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
      * Undo operation. Can be used multipe times. If game is loaded, undo cannot
      * be done to states of game that was before saving.
      */
