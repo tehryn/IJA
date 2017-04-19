@@ -314,9 +314,9 @@ public class Board {
         for (int i = 0; i < 4; i++) {
             str += color_stacks[i] + "\n";
         }
-        str += hidden_deck;
-        str += visible_deck;
-        str += score;
+        str += hidden_deck + "\n";
+        str += visible_deck + "\n";
+        str += score + "\n";
         return str;
     }
 
