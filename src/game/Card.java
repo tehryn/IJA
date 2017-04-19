@@ -127,6 +127,14 @@ public class Card {
     }
 
     /**
+     * Check if card has invalid color or value
+     * @return True if card is invalid, otherwise false.
+     */
+    public boolean is_error_card() {
+        return this.color == Color.ERR || this.value <= 0 || this.value > 13;
+    }
+
+    /**
      * Converts card to string.
      * @return String representing card.
      */

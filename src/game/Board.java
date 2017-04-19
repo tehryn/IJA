@@ -365,4 +365,32 @@ public class Board {
         }
         score--;
     }
+
+    public Card get_working_stack(int id, int idx) {
+        if (idx > -1 && idx < 7) {
+            return working_stacks[id].get(idx);
+        }
+        else {
+            return new Card();
+        }
+    }
+
+    public Card get_color_stack(int id, int idx) {
+        if (id > -1 && id < 4) {
+            return color_stacks[id].get(idx);
+        }
+        else {
+            return new Card();
+        }
+    }
+
+    public Card get_hidden_deck(int idx) {
+        return hidden_deck.get(idx);
+    }
+    public Card get_visible_deck(int idx) {
+        return visible_deck.get(idx);
+    }
+    public int get_score() {
+        return score;
+    }
 }
