@@ -329,6 +329,8 @@ public class Board {
     public boolean fromV_toC(int to) {
         if (to > -1 && to < 7 && color_stacks[to].push(visible_deck.top())) {
             visible_deck.pop();
+            history.push(new Move(Move.Type.VC, 0, to, 1));
+            score++;
             return true;
         }
         else {
@@ -345,6 +347,8 @@ public class Board {
     public boolean fromV_toW(int to) {
         if (to > -1 && to < 4 && working_stacks[to].push(visible_deck.top())) {
             visible_deck.pop();
+            history.push(new Move(Move.Type.VW, 0, to, 1));
+            score++;
             return true;
         }
         else {
