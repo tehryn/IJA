@@ -1,3 +1,9 @@
+/*
+ * Author: Matejka Jiri
+ * login:  xmatej52
+ * school: VUT FIT
+ * date:   22. 4. 2017
+ */
 package src.game;
 
 import src.game.Board;
@@ -8,6 +14,7 @@ import java.util.Vector;
 
 /**
  * Class that holds history of moves.
+ * @author Matejka Jiri (xmatej52)
  */
 public class History {
     Vector<Move> stack = new Vector<Move>(0);
@@ -33,5 +40,9 @@ public class History {
         else {
             return Move.err();
         }
+    }
+
+    public void clear() {
+        stack.clear();
     }
 }

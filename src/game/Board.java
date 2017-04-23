@@ -1,3 +1,9 @@
+/*
+ * Author: Matejka Jiri
+ * login:  xmatej52
+ * school: VUT FIT
+ * date:   22. 4. 2017
+ */
 package src.game;
 import src.game.Card;
 import src.game.Card.Color;
@@ -25,23 +31,71 @@ import java.io.PrintWriter;
  * four color stacks, IDs from 0 to 3,<br>
  * one visible deck and one hidden deck. <br>
  * Object of Board also holds history of moves and current score.
- */
+ * @author Matejka Jiri (xmatej52)
+*/
 public class Board {
+    /// @var Array of working stacks.
     protected Working_stack[] working_stacks    = new Working_stack[7];
+
+    /// @var Array of color stacks.
     protected Single_color_stack[] color_stacks = new Single_color_stack[4];
+
+    /// @var Deck of visible cards.
     protected Card_deck_visible visible_deck    = new Card_deck_visible();
+
+    /// @var Deck of hidden cards.
     protected Card_deck_hidden hidden_deck      = new Card_deck_hidden();
+
+    /// @var Score of game.
     protected int score = 0;
+
+    /// @var History of moves
     protected History history = new History();
-    public Board() {}
+
+    /// @var If user asks for possible move, this variable tells if we should generate new vector.
+    boolean generate = true;
+
+    /// @var Vector of possible moves.
+    History possible_moves;
+
+    /**
+     * Removes all cards from table and sets score to 0.
+     */
+    private void clear() {
+        for (int i = 0; i < 7; i++) {
+            working_stacks[i].clear();
+        }
+        for (int i = 0; i < 4; i++) {
+            color_stacks[i].clear();
+        }
+        hidden_deck.clear();
+        visible_deck.clear();
+        history.clear();
+        possible_moves.clear();
+        score = 0;
+        generate = true;
+    }
+
+    /**
+     * Construct new game with no cards on table.
+     */
+    public Board() {
+        for (int i = 0; i < 7; i++) {
+            working_stacks[i] = new Working_stack();
+        }
+        for (int i = 0; i < 4; i++) {
+            color_stacks[i] = new Single_color_stack();
+        }
+    }
+
     /**
      * Creates new game. If there was previous game, all cards will be removed,
      * and new cards will be dealt.
      */
     public void new_game() {
+        clear();
         Card_stack pack_of_cards = Card_stack.new_deck();
         for (int i = 0; i < 7; i++) {
-            working_stacks[i] = new Working_stack();
             for (int j = 0; j < i + 1; j++) {
                 working_stacks[i].force_push(pack_of_cards.pop_random());
             }
@@ -51,9 +105,6 @@ public class Board {
         while (tmp.get_color() != Color.ERR) {
             hidden_deck.force_push(tmp);
             tmp = pack_of_cards.pop_random();
-        }
-        for (int i = 0; i < 4; i++) {
-            color_stacks[i] = new Single_color_stack();
         }
     }
 
@@ -81,106 +132,97 @@ public class Board {
      * @return True of game was loaded, false on error.
      */
     public boolean load_game(String filename) {
-        for (int i = 0; i < 7; i++) {
-            working_stacks[i] = new Working_stack();
+        clear();
+        InputStream in;
+        InputStreamReader input_reader;
+        BufferedReader buffer_reader;
+        try {
+            in         = new FileInputStream(filename);
+            input_reader  = new InputStreamReader(in, Charset.forName("ASCII"));
+            buffer_reader = new BufferedReader(input_reader);
+        } catch (Exception e) {
+            return false;
         }
-        for (int i = 0; i < 4; i++) {
-            color_stacks[i] = new Single_color_stack();
-        }
-        hidden_deck  = new Card_deck_hidden();
-        visible_deck = new Card_deck_visible();
         String line;
         int lines = 0;
+        int size;
         try {
-            InputStream input = new FileInputStream(filename);
-            InputStreamReader input_reader = new InputStreamReader(input, Charset.forName("ASCII"));
-            BufferedReader buffer_reader = new BufferedReader(input_reader);
             while ((line = buffer_reader.readLine()) != null) {
-                if (lines < 13) {
-                    int size = line.length();
-                    String tmp = "";
-                    int value = 0;
-                    Card card;
-                    char c = 'E';
-                    for(int i = 0; i < size; i++) {
-                        if (line.charAt(i) == '\n') {
-                            break;
-                        }
-                        else if (line.charAt(i) == '(') {
-                            value = Integer.parseInt(tmp);
-                        }
-                        else if (line.charAt(i) == ')') {
-                            tmp = "";
-                            if (c == 'C') {
-                                card = new Card(value, Color.CLUBS);
-                            }
-                            else if (c == 'D') {
-                                card = new Card(value, Color.DIAMONDS);
-                            } else if (c == 'H') {
-                                card = new Card(value, Color.HEARTS);
-                            } else if (c == 'S') {
-                                card = new Card(value, Color.SPADES);
-                            }
-                            else {
-                                input.close();
-                                return false;
-                            }
-                            i++;
-                            if (line.charAt(i) == 'T') {
-                                card.make_visible();
-                            }
-                            switch(lines) {
-                                /*from 0 to 6 - reading working_stacks*/
-                                case 0:
-                                case 1:
-                                case 2:
-                                case 3:
-                                case 4:
-                                case 5:
-                                case 6:
-                                    working_stacks[lines].force_push(card);
-                                    break;
-                                /* from 7 to 10 - reading color_stacks*/
-                                case 7:
-                                case 8:
-                                case 9:
-                                case 10:
-                                    color_stacks[lines-7].force_push(card);
-                                    break;
-                                /* reading hidden_deck */
-                                case 11:
-                                    hidden_deck.force_push(card);
-                                    break;
-                                /* reading visible_deck */
-                                case 12:
-                                    visible_deck.force_push(card);
-                            }
-                        }
-                        else {
-                            tmp += line.charAt(i);
-                            c    = line.charAt(i);
-                        }
+                if (lines == 13) {
+                    try {
+                        score = Integer.parseInt(line);
+                        in.close();
+                        return true;
+                    } catch (Exception e) {
+                        in.close();
+                        clear();
+                        return false;
                     }
                 }
-                else {
-                    this.score = Integer.parseInt(line);
+                if (line == "") {
+                    lines++;
+                    continue;
+                }
+                size = line.length();
+                Card card;
+                String c = "";
+                for(int i = 0; i < size; i++) {
+                    if ((i + 4) >= size || line.charAt(i+1) != '(' || line.charAt(i+3) != ')' || (line.charAt(i+4) != 'F' && line.charAt(i+4) != 'T')) {
+                        in.close();
+                        clear();
+                        return false;
+                    }
+                    if (line.charAt(i) == 'L') {
+                        c = "10" + line.substring(i+1, i+5);
+                    }
+                    else {
+                        c = line.substring(i, i+5);
+                    }
+                    card = Card.string_to_card(c);
+                    if (card.is_error_card()) {
+                        in.close();
+                        clear();
+                        return false;
+                    }
+                    if (line.charAt(i+4) == 'F') {
+                        card.make_hidden();
+                    }
+                    if (lines < 7) {
+                        working_stacks[lines].force_push(card);
+                    }
+                    else if (lines < 11 ) {
+                        color_stacks[lines-7].push(card);
+                    }
+                    else if (lines == 11) {
+                        hidden_deck.force_push(card);
+                    }
+                    else if (lines == 12) {
+                        visible_deck.force_push(card);
+                    }
+                    else {
+                        in.close();
+                        clear();
+                        return false;
+                    }
+                    i+=4;
                 }
                 lines++;
             }
-            input.close();
+            in.close();
         } catch (Exception e) {
-            System.out.println(e);
             return false;
         }
-        return true;
+        clear();
+        return false;
     }
 
     /**
-     * Represents move between two working stacks.
-     * @param  from ID of working stack from which cards will be taken.
-     * @param  to   ID of working stack to which cards will be added.
-     * @param  card Card on which user clicked.
-     * @return      True on succes, false on ilegal operation.
+     * Moves card(s) between two working packs. Moves all cards until specific
+     * card is reached. When false was returned, no changes were made.
+     * @param  from From wich pack cards will be taken.
+     * @param  to   To which pack cards will be added.
+     * @param  card Specific card used as a guard.
+     * @return      True on succes, False on invalid operation.
      */
     public boolean fromW_toW(int from, int to, Card card) {
         if (from > 7 || to > 7 || to < 0 || from < 0) {
@@ -209,10 +251,11 @@ public class Board {
     }
 
     /**
-     * Represents move between two color stacks (Only aces can be moved).
-     * @param  from ID of color stack from which ace will be removed.
-     * @param  to   ID of color stack to which ace will be added.
-     * @return      True on succes, false on ilegal operation.
+     * Moves card between two color packs. Only ace can be moved. When false is
+     * returned, no changes were made.
+     * @param  from From which pack card will be taken.
+     * @param  to   To which pack card will be added.
+     * @return      True on succes, False on invalid operation.
      */
     public boolean fromC_toC(int from, int to) {
         if (color_stacks[to].size() != 0 || color_stacks[from].size() != 1 || to > 3 || from > 3 || from < 0 || to < 0) {
@@ -226,11 +269,11 @@ public class Board {
     }
 
     /**
-     * Represents move from working stack to color stack. Only one card can be
-     * moved.
-     * @param  from ID of working stack from which card will be taken.
-     * @param  to   ID of color stack to which card will be added.
-     * @return      True on succes, false on ilegal operation.
+     * Moves card from Working pack to Color pack. When false is returned, no
+     * changes were made.
+     * @param  from From which pack card will be taken.
+     * @param  to   To which pack card will be added.
+     * @return      True on succes, false on invalid operation.
      */
     public boolean fromW_toC(int from, int to) {
         if (from >= 7 || to >= 4 || from < 0 || to < 0) {
@@ -252,11 +295,11 @@ public class Board {
     }
 
     /**
-     * Represents move from color stack to working stack. Only one card can be
-     * moved.
-     * @param  from ID of color stack from which card will be removed.
-     * @param  to   ID of working stack to which card will be added.
-     * @return      True on succes, false on ilegal operation.
+     * Moves card from color pack to working pack. When false is returned, no
+     * changes were made.
+     * @param  from From which pack card will be taken.
+     * @param  to   To which pack card will be added.
+     * @return      True on succes, false on invalid operation.
      */
     public boolean fromC_toW(int from, int to) {
         if (from > 3 || to > 6 || from < 0 || to < 0) {
@@ -317,6 +360,24 @@ public class Board {
         str += hidden_deck + "\n";
         str += visible_deck + "\n";
         str += score + "\n";
+        return str;
+    }
+
+    /**
+     * Converts whole game to string that can be used for saving.
+     * @return String representing the game.
+     */
+    static public String toString(Board board) {
+        String str = "";
+        for (int i = 0; i < 7; i++) {
+            str += Card_stack.toString(board.working_stacks[i]) + "\n";
+        }
+        for (int i = 0; i < 4; i++) {
+            str += Card_stack.toString(board.color_stacks[i]) + "\n";
+        }
+        str += Card_stack.toString(board.hidden_deck) + "\n";
+        str += Card_stack.toString(board.visible_deck) + "\n";
+        str += board.score + "\n";
         return str;
     }
 
@@ -434,6 +495,20 @@ public class Board {
         }
     }
 
+    /**
+     * Checks player won the game.
+     * @return true when player won.
+     */
+    boolean is_victory() {
+        boolean ret = true;
+        for (int i = 0; i < 4; i++) {
+            if (color_stacks[i].top().get_value() != 13) {
+                ret = false;
+            }
+        }
+        return ret;
+    }
+    
     /**
      * Retrieve card from hidden deck.
      * @param  idx Index of card in deck.

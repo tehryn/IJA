@@ -1,3 +1,9 @@
+/*
+ * Author: Matejka Jiri
+ * login:  xmatej52
+ * school: VUT FIT
+ * date:   22. 4. 2017
+ */
 package src.game;
 
 /**
@@ -8,6 +14,7 @@ package src.game;
  * Visibility tells if card with its face up or not. Has values true and false. <br>
  * For checking validity of card, please use always color and looks for value
  * ERR.
+ * @author Matejka Jiri (xmatej52)
  */
 public class Card {
     /**
@@ -16,13 +23,17 @@ public class Card {
     public static enum Color {
         ERR, CLUBS, DIAMONDS, HEARTS, SPADES;
 
+        /**
+         * Converts color into string.
+         * @return String representing color.
+         */
         public String toString() {
             switch(this) {
-                case CLUBS    : return "C";
-                case DIAMONDS : return "D";
-                case HEARTS   : return "H";
-                case SPADES   : return "S";
-                default       : return "ERR";
+                case HEARTS:   return "H";
+                case SPADES:   return "S";
+                case DIAMONDS: return "D";
+                case CLUBS:    return "C";
+                default:       return "E";
             }
         }
 
@@ -45,15 +56,16 @@ public class Card {
         }
     };
 
-    /// Represents alue of card.
+    /// @var Represents alue of card.
     protected int value          = 0;
-    /// Represents color of card.
+    /// @var Represents color of card.
     protected Card.Color color   = Color.ERR;
-    /// Represents visibility of card.
+    /// @var Represents visibility of card.
     protected boolean visibility = false;
 
     /**
      * Constructor of Card. Sets value to 0, color to ERR and visibility to false.
+     * @return card with invalid values.
      */
     public Card(){}
 
@@ -61,6 +73,7 @@ public class Card {
      * Constructor of Card. Sets visibility to false.
      * @param  value Value of new card.
      * @param  color Color of new card.
+     * @return New card.
      */
     public Card(int value, Card.Color color) {
         this.value = value;
@@ -139,11 +152,101 @@ public class Card {
      * @return String representing card.
      */
     public String toString() {
-        if (this.visibility) {
-            return String.valueOf(this.value) + "(" + this.color.toString() + ")" + "T";
+        String str = "";
+        if (this.is_error_card()) {
+            str += "--|EMPTY |";
+        }
+        else if(this.visibility) {
+            switch(this.value) {
+                case 13: str += "--| K"; break;
+                case 12: str += "--| Q"; break;
+                case 11: str += "--| J"; break;
+                case 10: str += "--|10"; break;
+                case  1: str += "--| A"; break;
+                default: str += "--| " + this.value;
+            }
+            switch(this.color) {
+                case HEARTS:   str += "(H) |"; break;
+                case SPADES:   str += "(S) |"; break;
+                case DIAMONDS: str += "(D) |"; break;
+                case CLUBS:    str += "(C) |"; break;
+            }
         }
         else {
-            return String.valueOf(this.value) + "(" + this.color.toString() + ")" + "F";
+            str += "--|OOOOOO|";
         }
+        return str;
+    }
+
+    /**
+     * Converts string into card
+     * @param  str String representing card.
+     * @param  idx Index in string where function will expect card.
+     * @return     Card that was represented by string. Error card when
+     *             string was invalid.
+     */
+    static Card string_to_card(String str) {
+        int idx = 0;
+        int size = str.length();
+        Card card = new Card();
+        if (idx < size && idx >= 0) {
+            int value = 0;
+            Color color = Color.ERR;
+            switch(str.charAt(idx)) {
+                case 'A': value = 1; break;
+                case 'K': value = 13; break;
+                case 'Q': value = 12; break;
+                case 'J': value = 11; break;
+                case '1': idx++; value = 10; break;
+                default : value = str.charAt(idx) - '0';
+            }
+            idx+=2;
+            if (idx < size && value > 0 && value < 14) {
+                switch(str.charAt(idx)) {
+                    case 'D': color = Color.DIAMONDS; break;
+                    case 'H': color = Color.HEARTS; break;
+                    case 'S': color = Color.SPADES; break;
+                    case 'C': color = Color.CLUBS; break;
+                    default : color = Color.ERR;
+                }
+                card = new Card(value, color);
+            }
+            return card;
+        }
+        else {
+            return card;
+        }
+    }
+
+    /**
+     * Converts card to string. Value of 11, 12 and 13 is represented by J, Q
+     * and K. Value 10 as L Information about visibility of card is included
+     * in string.
+     * @return String representing card.
+     */
+    static String toString(Card card) {
+        String str = "";
+        switch(card.value) {
+            case 10: str += "L"; break;
+            case 11: str += "J"; break;
+            case 12: str += "Q"; break;
+            case 13: str += "K"; break;
+            case  1: str += "A"; break;
+            default: str += card.value;
+        }
+        switch(card.color) {
+            case HEARTS:   str += "(H)"; break;
+            case SPADES:   str += "(S)"; break;
+            case DIAMONDS: str += "(D)"; break;
+            case CLUBS:    str += "(C)"; break;
+            default:       str += "(E)";
+        }
+        if (card.visibility) {
+            str += 'T';
+        }
+        else {
+            str += 'F';
+        }
+        return str;
     }
 }

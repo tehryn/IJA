@@ -1,9 +1,26 @@
+/*
+ * Author: Matejka Jiri
+ * login:  xmatej52
+ * school: VUT FIT
+ * date:   23. 4. 2017
+ */
 package src.game;
 import src.game.Card;
 import src.game.Card.Color;
 import src.game.Card_stack;
 
+
+/**
+ * Class representing stack of card with multiple colors.
+ * @author Matejka Jiri (xmatej52)
+ */
 public class Working_stack extends Card_stack {
+
+    /**
+     * Pushes card into stack.
+     * @param  card Card that will be pushed.
+     * @return      True on succes, false on invalid operation.
+     */
     public boolean push(Working_stack stack) {
         Card card = stack.bottom();
         if ((((this.top().get_value() - 1) == card.get_value()) && !card.is_similar(this.top()))
@@ -18,6 +35,12 @@ public class Working_stack extends Card_stack {
             return false;
         }
     }
+
+    /**
+     * Pushes stack of cards into stack.
+     * @param  stack Stack of cards tha will be pushed.
+     * @return       True on succes, false on invalid operation.
+     */
     public boolean push(Card card) {
         if (this.size() == 0 && card.get_value() == 13) {
             force_push(card);
@@ -32,6 +55,13 @@ public class Working_stack extends Card_stack {
             return false;
         }
     }
+
+    /**
+     * Pops all card until given card is reached.
+     * @param  card Card that will be used as guard
+     * @return      All cards including given card as stack, when given card
+     *              is not in stack or is not visible, empty stack is returned.
+     */
     public Working_stack pop_until(Card card) {
         Card popped = this.pop();
         Card on_top = this.top();

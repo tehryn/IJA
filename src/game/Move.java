@@ -10,6 +10,7 @@ package src.game;
  * VC  - Move between visible deck and color stack.<br>
  * H   - Move representing click on hidden deck. <br>
  * ERR - Invalid move.
+ * @author Matejka Jiri (xmatej52)
  */
 public class Move {
     /**
