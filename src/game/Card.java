@@ -185,7 +185,7 @@ public class Card {
      * @return     Card that was represented by string. Error card when
      *             string was invalid.
      */
-    static Card string_to_card(String str) {
+    public static Card string_to_card(String str) {
         int idx = 0;
         int size = str.length();
         Card card = new Card();
@@ -216,6 +216,32 @@ public class Card {
         else {
             return card;
         }
+    }
+
+    /**
+     * Converts card to string. Value of 11, 12 and 13 is represented by J, Q
+     * and K. Value 1 as A. Information about visibility of card is not included
+     * in string.
+     * @param card Card that will be converted.
+     * @return     String representing card.
+     */
+    public static String to_string(Card card) {
+        String str = "";
+        switch(card.value) {
+            case  1: str += "A"; break;
+            case 11: str += "J"; break;
+            case 12: str += "Q"; break;
+            case 13: str += "K"; break;
+            default: str += card.value;
+        }
+        switch(card.color) {
+            case HEARTS:   str += "(H)"; break;
+            case SPADES:   str += "(S)"; break;
+            case DIAMONDS: str += "(D)"; break;
+            case CLUBS:    str += "(C)"; break;
+            default:       str += "(ERR)";
+        }
+        return str;
     }
 
     /**

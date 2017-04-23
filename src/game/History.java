@@ -42,6 +42,17 @@ public class History {
         }
     }
 
+    /**
+     * Retrieve number of moves in history.
+     * @return number of moves in history.
+     */
+    public int size() {
+        return stack.size();
+    }
+
+    /**
+     * Removes all moves from Vector.
+     */
     public void clear() {
         stack.clear();
     }

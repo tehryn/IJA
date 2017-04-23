@@ -1,8 +1,13 @@
-import src.game.Board;
 import src.gui.G_Board;
+import src.game.Console;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String [] args) {
+//    Console bash = new Console();
+//    Scanner stdin = new Scanner(System.in);
+//    bash.start(stdin);
 //        Board b = new Board();
 //        b.new_game();
 //        System.out.println(b + "\n--------------------------------------");

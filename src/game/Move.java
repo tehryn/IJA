@@ -1,5 +1,5 @@
 package src.game;
-
+import src.game.Card;
 /**
  * Class representing moves. There are 8 possible moves:
  * WW  - Move between two working stacks.<br>
@@ -17,25 +17,28 @@ public class Move {
      * Enum that holds movement identifiers.
      */
     public static enum Type {
-        WW, CC, WC, CW, VW, VC, H, ERR;
+        WW, CC, WC, CW, VW, VC, H, INV;
     }
     protected int from;
     protected int to;
-    protected int card_count;
+    protected Card card;
     protected Type type;
+    protected boolean card_turned;
 
     /**
      * Creates new move.
-     * @param  type       Type of move.
-     * @param  from       From which stack/deck card(s) was taken.
-     * @param  to         To which stack/deck card(s) was added.
-     * @param  card_count Number of cards that was moved.
+     * @param  type        Type of move.
+     * @param  from        From which stack/deck card(s) was taken.
+     * @param  to          To which stack/deck card(s) was added.
+     * @param  card_count  Number of cards that was moved.
+     * @param  card_turned Tells if card was turned on top of stack after move.
      */
-    public Move(Type type, int from, int to, int card_count) {
-        this.type       = type;
-        this.to         = to;
-        this.from       = from;
-        this.card_count = card_count;
+    Move(Type type, int from, int to, Card card, boolean card_turned) {
+        this.type        = type;
+        this.to          = to;
+        this.from        = from;
+        this.card        = card;
+        this.card_turned = card_turned;
     }
 
     /**
@@ -43,7 +46,7 @@ public class Move {
      * @return Invalid move.
      */
     public static Move err() {
-        return new Move(Move.Type.ERR, 0,0,0);
+        return new Move(Type.INV, 0,0, new Card(0, Card.Color.ERR), false);
     }
 
     /**
@@ -71,10 +74,47 @@ public class Move {
     }
 
     /**
-     * Retrieve count of cards that were moved.
+     * Retrieve card that was moved.
      * @return Number of cards that were moved.
      */
-    public int get_count() {
-        return this.card_count;
+    public Card get_card() {
+        return this.card;
     }
+
+    /**
+     * Tells if card was turned after this move.
+     * @return True if card was turned, otherwise false.
+     */
+    boolean was_turned() {
+        return card_turned;
+    }
+
+    /**
+     * Checks if move is invalid (type of move is INV)
+     * @return true if move is invalid.
+     */
+    public boolean is_move_invalid() {
+        return type == Type.INV;
+    }
+
+    public String toString() {
+        switch(type) {
+            case WW:
+                return "working " + from + " working " + to + ' ' + Card.to_string(card) + "\n";
+            case WC:
+                return "working " + from + " color " + to + "\n";
+            case CW:
+                return "color " + from + " working " + to + "\n";
+            case CC:
+                return "color " + from + " color " + to + "\n";
+            case VW:
+                return "visible working " + to + "\n";
+            case VC:
+                return "visible color " + to + "\n";
+            case  H:
+                return "hidden";
+            default: return "";
+        }
+    }
+
 }

@@ -217,6 +217,43 @@ public class Board {
     }
 
     /**
+    * Converts whole game to string.
+    * @return String representing the game.
+    */
+    public String toString() {
+        String str = "";
+        for (int i = 0; i < 7; i++) {
+            str += working_stacks[i] + "\n";
+        }
+        for (int i = 0; i < 4; i++) {
+            str += color_stacks[i] + "\n";
+        }
+        str += hidden_deck + "\n";
+        str += visible_deck + "\n";
+        str += score + "\n";
+        return str;
+    }
+
+    /**
+    * Converts whole game to string that can be used for saving.
+    * @return String representing the game.
+    */
+    static public String toString(Board board) {
+        String str = "";
+        for (int i = 0; i < 7; i++) {
+            str += Card_stack.toString(board.working_stacks[i]) + "\n";
+        }
+        for (int i = 0; i < 4; i++) {
+            str += Card_stack.toString(board.color_stacks[i]) + "\n";
+        }
+        str += Card_stack.toString(board.hidden_deck) + "\n";
+        str += Card_stack.toString(board.visible_deck) + "\n";
+        str += board.score + "\n";
+        return str;
+    }
+
+
+    /**
      * Moves card(s) between two working packs. Moves all cards until specific
      * card is reached. When false was returned, no changes were made.
      * @param  from From wich pack cards will be taken.
@@ -225,7 +262,7 @@ public class Board {
      * @return      True on succes, False on invalid operation.
      */
     public boolean fromW_toW(int from, int to, Card card) {
-        if (from > 7 || to > 7 || to < 0 || from < 0) {
+        if (from > 7 || to > 7 || to < 0 || from < 0 || card.is_error_card()) {
             return false;
         }
         Working_stack tmp = working_stacks[from].pop_until(card);
@@ -239,9 +276,9 @@ public class Board {
                 return false;
             }
             else {
+                history.push(new Move(Move.Type.WW, from, to, card, !working_stacks[from].top().is_visible()));
                 working_stacks[from].set_top_visible();
-                score++;
-                history.push(new Move(Move.Type.WW, from, to, card_count));
+                generate = true;
                 return true;
             }
         }
@@ -258,13 +295,13 @@ public class Board {
      * @return      True on succes, False on invalid operation.
      */
     public boolean fromC_toC(int from, int to) {
-        if (color_stacks[to].size() != 0 || color_stacks[from].size() != 1 || to > 3 || from > 3 || from < 0 || to < 0) {
-            return false;
+        if (color_stacks[to].push(color_stacks[from].top())) {
+            history.push(new Move(Move.Type.CC, from, to, color_stacks[from].pop(), false));
+            generate = true;
+            return true;
         }
         else {
-            score++;
-            history.push(new Move(Move.Type.CC, from, to, 1));
-            return color_stacks[to].push(color_stacks[from].pop());
+            return false;
         }
     }
 
@@ -282,10 +319,11 @@ public class Board {
         else {
             Card tmp = working_stacks[from].top();
             if (color_stacks[to].push(tmp)) {
-                working_stacks[from].pop();
+                tmp = working_stacks[from].pop();
+                history.push(new Move(Move.Type.WC, from, to, tmp, !working_stacks[from].top().is_visible()));
                 working_stacks[from].set_top_visible();
-                score++;
-                history.push(new Move(Move.Type.WC, from, to, 1));
+                score += 15;
+                generate = true;
                 return true;
             }
             else {
@@ -306,14 +344,13 @@ public class Board {
             return false;
         }
         else if (color_stacks[from].size() > 0) {
-            Card tmp = color_stacks[from].pop();
-            if (working_stacks[to].push(tmp)) {
-                score++;
-                history.push(new Move(Move.Type.CW, from, to, 1));
+            if (working_stacks[to].push(color_stacks[from].top())) {
+                history.push(new Move(Move.Type.CW, from, to, color_stacks[from].pop(), false));
+                score = (score>15)?(score-15):0;
+                generate = true;
                 return true;
             }
             else {
-                color_stacks[from].push(tmp);
                 return false;
             }
         }
@@ -328,58 +365,28 @@ public class Board {
      * and moves them to hidden deck.
      */
     public void fromH_toV() {
+        if (hidden_deck.size() == 0 && visible_deck.size() == 0) {
+            return;
+        }
         if (hidden_deck.size() == 0) {
-            int size = hidden_deck.size();
+            int size = visible_deck.size();
             for (int i = 0; i < size; i++) {
                 Card tmp = visible_deck.pop();
                 tmp.make_hidden();
                 hidden_deck.force_push(tmp);
             }
+            score = (score>100)?(score-100):0;
+            history.push(new Move(Move.Type.H, 0, 0, new Card(0, Card.Color.ERR), true));
         }
         else {
             Card tmp = hidden_deck.pop();
             tmp.make_visible();
             visible_deck.force_push(tmp);
+            history.push(new Move(Move.Type.H, 0, 0, tmp, true));
         }
-        score++;
-        history.push(new Move(Move.Type.H, 0, 0, 1));
+        generate = true;
     }
 
-    /**
-     * Converts whole game to string.
-     * @return String representing the game.
-     */
-    public String toString() {
-        String str = "";
-        for (int i = 0; i < 7; i++) {
-            str += working_stacks[i] + "\n";
-        }
-        for (int i = 0; i < 4; i++) {
-            str += color_stacks[i] + "\n";
-        }
-        str += hidden_deck + "\n";
-        str += visible_deck + "\n";
-        str += score + "\n";
-        return str;
-    }
-
-    /**
-     * Converts whole game to string that can be used for saving.
-     * @return String representing the game.
-     */
-    static public String toString(Board board) {
-        String str = "";
-        for (int i = 0; i < 7; i++) {
-            str += Card_stack.toString(board.working_stacks[i]) + "\n";
-        }
-        for (int i = 0; i < 4; i++) {
-            str += Card_stack.toString(board.color_stacks[i]) + "\n";
-        }
-        str += Card_stack.toString(board.hidden_deck) + "\n";
-        str += Card_stack.toString(board.visible_deck) + "\n";
-        str += board.score + "\n";
-        return str;
-    }
 
     /**
      * Represents move from visible deck to color stack. Pops card from visible
@@ -388,10 +395,13 @@ public class Board {
      * @return    True on succes otherwise false.
      */
     public boolean fromV_toC(int to) {
-        if (to > -1 && to < 7 && color_stacks[to].push(visible_deck.top())) {
-            visible_deck.pop();
-            history.push(new Move(Move.Type.VC, 0, to, 1));
-            score++;
+        if (to < 0 || to > 3) {
+            return false;
+        }
+        else if (color_stacks[to].push(visible_deck.top())) {
+            history.push(new Move(Move.Type.VC, 0, to, visible_deck.pop(), false));
+            score += 20;
+            generate = true;
             return true;
         }
         else {
@@ -406,10 +416,13 @@ public class Board {
      * @return    True on succes otherwise false.
      */
     public boolean fromV_toW(int to) {
-        if (to > -1 && to < 4 && working_stacks[to].push(visible_deck.top())) {
-            visible_deck.pop();
-            history.push(new Move(Move.Type.VW, 0, to, 1));
-            score++;
+        if (to < 0 || to > 7) {
+            return false;
+        }
+        else if (working_stacks[to].push(visible_deck.top())) {
+            history.push(new Move(Move.Type.VW, 0, to, visible_deck.pop(), false));
+            score += 5;
+            generate = true;
             return true;
         }
         else {
@@ -421,28 +434,36 @@ public class Board {
      * Undo operation. Can be used multipe times. If game is loaded, undo cannot
      * be done to states of game that was before saving.
      */
-    public void undo() {
+    public Move undo() {
         Move move = history.pop();
         Card tmp;
+        Working_stack new_stack = new Working_stack();
+        int size;
         switch(move.get_type()) {
-            case ERR: break;
+            case INV: return move;
             case WW:
-                Working_stack new_stack = new Working_stack();
-                for(int i = 0; i < move.get_count(); i++) {
-                    tmp = working_stacks[move.get_to()].pop();
-                    new_stack.insert_bottom(tmp);
+                new_stack.clear();
+                if (move.was_turned()) {
+                    working_stacks[move.get_from()].set_top_hidden();
                 }
-                for(int i = 0; i < move.get_count(); i++) {
+                new_stack = working_stacks[move.get_to()].pop_until(move.get_card());
+                size = new_stack.size();
+                for(int i = 0; i < size; i++) {
                     working_stacks[move.get_from()].force_push(new_stack.pop_bottom());
                 }
                 break;
             case WC:
+                if (move.was_turned()) {
+                    working_stacks[move.get_from()].set_top_hidden();
+                }
                 tmp = color_stacks[move.get_to()].pop();
                 working_stacks[move.get_from()].force_push(tmp);
+                score -= 15;
                 break;
             case CW:
                 tmp = working_stacks[move.get_to()].pop();
                 color_stacks[move.get_from()].force_push(tmp);
+                score += 15;
                 break;
             case CC:
                 tmp = color_stacks[move.get_to()].pop();
@@ -451,16 +472,86 @@ public class Board {
             case VW:
                 tmp = working_stacks[move.get_to()].pop();
                 visible_deck.force_push(tmp);
+                score -= 5;
                 break;
             case VC:
                 tmp = color_stacks[move.get_to()].pop();
                 visible_deck.force_push(tmp);
+                score -= 20;
                 break;
             case  H:
+            if (move.get_card().is_error_card()) {
+                size = hidden_deck.size();
+                for(int i = 0; i < size; i++) {
+                    tmp = hidden_deck.pop();
+                    tmp.make_visible();
+                    visible_deck.force_push(tmp);
+                }
+                score += 100;
+            } else {
                 tmp = visible_deck.pop();
+                tmp.make_hidden();
                 hidden_deck.force_push(tmp);
+            }
         }
-        score--;
+        generate = true;
+    //    score = (score>5)?score-5:0;
+        return move;
+    }
+
+    /**
+     * Returns one of possible moves. If no move is possible, invalid move is
+     * returned (type fo move is INV). Only moves between 2 working stacks,
+     * working stack and color stack, visible deck and color stack can be returned.
+     * @return One of possible moves.
+     */
+    public Move help() {
+        if (generate || possible_moves.size() == 0) {
+            generate = false;
+            generate_moves();
+        }
+        return possible_moves.pop();
+    }
+
+    /**
+     * Generates all possible moves and adds it into vector.
+     */
+    public void generate_moves() {
+        possible_moves.clear();
+        Card card;
+        int size = 0;
+        for (int from = 0; from < 7; from++) {
+            for (int to = 0; to < 7; to++) {
+                if (from == to) {
+                    continue;
+                }
+                size = working_stacks[from].size();
+                for (int i = 0; i < size; i++) {
+                    card = working_stacks[from].get(i);
+                    if (fromW_toW(from, to, card)) {
+                        possible_moves.push(undo());
+                    }
+                }
+            }
+        }
+        for (int from = 0; from < 7; from++) {
+            for (int to = 0; to < 4; to++) {
+                if (fromW_toC(from, to)) {
+                    possible_moves.push(undo());
+                }
+            }
+        }
+        for (int to = 0; to < 7; to++) {
+            if (fromV_toW(to)) {
+                possible_moves.push(undo());
+            }
+        }
+        for (int to = 0; to < 4; to++) {
+            if (fromV_toC(to)) {
+                possible_moves.push(undo());
+            }
+        }
+        generate = false;
     }
 
     /**
@@ -499,7 +590,7 @@ public class Board {
      * Checks player won the game.
      * @return true when player won.
      */
-    boolean is_victory() {
+    public boolean is_victory() {
         boolean ret = true;
         for (int i = 0; i < 4; i++) {
             if (color_stacks[i].top().get_value() != 13) {
@@ -508,7 +599,7 @@ public class Board {
         }
         return ret;
     }
-    
+
     /**
      * Retrieve card from hidden deck.
      * @param  idx Index of card in deck.
