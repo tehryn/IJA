@@ -24,7 +24,7 @@ public class Working_stack extends Card_stack {
     public boolean push(Working_stack stack) {
         Card card = stack.bottom();
         if ((((this.top().get_value() - 1) == card.get_value()) && !card.is_similar(this.top()))
-             || (this.size() == 0 && (card.get_value() == 13))) {
+             || (this.size() == 0 && (card.get_value() == 13)) && !card.is_error_card()) {
             int size = stack.size();
             for (int i = 0; i < size; i++) {
                 force_push(stack.pop_bottom());
@@ -63,17 +63,20 @@ public class Working_stack extends Card_stack {
      *              is not in stack or is not visible, empty stack is returned.
      */
     public Working_stack pop_until(Card card) {
+        Working_stack err_stack = new Working_stack();
+        if (!card.is_visible()) {
+            return err_stack;
+        }
         Card popped = this.pop();
         Card on_top = this.top();
         Working_stack new_stack = new Working_stack();
-        Working_stack err_stack = new Working_stack();
         new_stack.force_push(popped);
-        while (!popped.is_similar(on_top) && popped != card && popped.is_visible()) {
+        while (!popped.is_similar(on_top) && !popped.equals(card) && popped.is_visible() && !on_top.is_error_card()) {
             popped = this.pop();
             on_top = this.top();
             new_stack.insert_bottom(popped);
         }
-        if (popped == card) {
+        if (popped.equals(card)) {
             return new_stack;
         }
         else {

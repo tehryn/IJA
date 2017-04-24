@@ -41,10 +41,10 @@ public class Board {
     protected Single_color_stack[] color_stacks = new Single_color_stack[4];
 
     /// @var Deck of visible cards.
-    protected Card_deck_visible visible_deck    = new Card_deck_visible();
+    protected Card_deck_visible visible_deck;
 
     /// @var Deck of hidden cards.
-    protected Card_deck_hidden hidden_deck      = new Card_deck_hidden();
+    protected Card_deck_hidden hidden_deck;
 
     /// @var Score of game.
     protected int score = 0;
@@ -86,6 +86,11 @@ public class Board {
         for (int i = 0; i < 4; i++) {
             color_stacks[i] = new Single_color_stack();
         }
+        visible_deck    = new Card_deck_visible();
+        hidden_deck     = new Card_deck_hidden();
+        history         = new History();
+        possible_moves  = new History();
+        score = 0;
     }
 
     /**
@@ -116,7 +121,17 @@ public class Board {
     public boolean save_game(String filename) {
         try {
             PrintWriter output = new PrintWriter(filename, "ASCII");
-            output.println(this);
+            String str = "";
+            for (int i = 0; i < 7 ; i++) {
+                str += Card_stack.toString(working_stacks[i]) + "\n";
+            }
+            for (int i = 0; i < 4 ; i++) {
+                str += Card_stack.toString(color_stacks[i])   + "\n";
+            }
+            str += Card_stack.toString(hidden_deck)  + "\n";
+            str += Card_stack.toString(visible_deck) + "\n";
+            str += score + "\n";
+            output.print(str);
             output.flush();
             output.close();
 
@@ -137,7 +152,7 @@ public class Board {
         InputStreamReader input_reader;
         BufferedReader buffer_reader;
         try {
-            in         = new FileInputStream(filename);
+            in            = new FileInputStream(filename);
             input_reader  = new InputStreamReader(in, Charset.forName("ASCII"));
             buffer_reader = new BufferedReader(input_reader);
         } catch (Exception e) {
@@ -223,14 +238,14 @@ public class Board {
     public String toString() {
         String str = "";
         for (int i = 0; i < 7; i++) {
-            str += working_stacks[i] + "\n";
+            str += "Working " + i + ": " + working_stacks[i] + "\n";
         }
         for (int i = 0; i < 4; i++) {
-            str += color_stacks[i] + "\n";
+            str += "  Color " + i + ": " + color_stacks[i].top() + "\n";
         }
-        str += hidden_deck + "\n";
-        str += visible_deck + "\n";
-        str += score + "\n";
+        str += " Hidden 0: " + hidden_deck.top() + "\n";
+        str += "Visible 0: " + visible_deck.top() + "\n";
+        str += "    Score: " + score + "\n";
         return str;
     }
 
@@ -263,6 +278,7 @@ public class Board {
      */
     public boolean fromW_toW(int from, int to, Card card) {
         if (from > 7 || to > 7 || to < 0 || from < 0 || card.is_error_card()) {
+            System.out.println("Chyba v prvni podmince");
             return false;
         }
         Working_stack tmp = working_stacks[from].pop_until(card);

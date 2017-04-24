@@ -210,6 +210,7 @@ public class Card {
                     default : color = Color.ERR;
                 }
                 card = new Card(value, color);
+                card.make_visible();
             }
             return card;
         }
