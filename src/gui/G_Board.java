@@ -65,7 +65,7 @@ public class G_Board extends JFrame implements ActionListener{
         menu_bar.add(menu);
         setJMenuBar(menu_bar);
     }
-    
+
 /* // funkce na nacteni pokusneho pole karet a labelu
     public void nacti_pokus_karty() {
         for (int i=0; i < 9; i++){
@@ -90,7 +90,7 @@ public class G_Board extends JFrame implements ActionListener{
         }
     }
 */
-    
+
     public void init() {
         init_menu();
         playing_board.new_game();
@@ -124,7 +124,7 @@ public class G_Board extends JFrame implements ActionListener{
 
         add(panel_bottom);
 
-        pack(); // netusim, co to dela, ale vsude to bylo :-D
+        pack();
 
         // nastaveni okna aplikace
         setTitle("Solitaire");

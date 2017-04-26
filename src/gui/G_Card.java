@@ -14,6 +14,10 @@ public class G_Card {
 
     public G_Card (Card c) {
         super();
+        init(c);
+    }
+
+    public void init(Card c) {
         card = c;
         if (card.is_error_card()) { // pri chybe muze byt vracena chybova karta
             System.err.println("Cannot create a card.");
@@ -44,8 +48,8 @@ public class G_Card {
     // moje funkce na vykresleni, nic by nemela pretezovat
     public void draw (Graphics g, Component c) {
         System.err.println("card paint"); // jen pomocny vypis
-        Graphics2D g2 = (Graphics2D) g;
-        g2.drawString("Pokus.", 100, 10);
+        // Graphics2D g2 = (Graphics2D) g;
+        // g2.drawString("Pokus.", 100, 10);
         this.image.paintIcon(c, g, 0, position_y); // snaha o vykresleni obrazku do tridy typu JComponent s posunutim o position_y
     }
 }

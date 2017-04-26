@@ -23,12 +23,12 @@ public class G_Working_stack extends JComponent {
 
     // postupne odebirani karet od indexu az po vrchol zasobniku
     // musi byt jeste vyzkouseno
-    public G_Card remove_indexed (G_Card card, int index) { 
+    public G_Card remove_indexed (G_Card card, int index) {
         if (this.stack.size() < 0)
             return null;
         if (index >= this.stack.size())
             return null;
-        
+
         // mazani jedne karty
         position_y = 10 * (this.stack.size() - 1);
         return this.stack.remove(index);
@@ -53,9 +53,10 @@ public class G_Working_stack extends JComponent {
     public void paint (Graphics g) { // snaha o vykresleni zasobniku
         System.err.println("printComponent "); // pomocny vypis
         super.paintComponent(g);
-        
+
         for (G_Card card : stack) { // prochazim vsechny karty v zasobniku (snad od 0. indexu)
             card.draw(g, this);
         }
+
     }
 }
