@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.File;
 
-// Trida reprezentujici kartu. Obsahuje obrazek a samotnou kartu, ktera obsahuje veskere informace (hodnota a barva karty). 
+// Trida reprezentujici kartu. Obsahuje obrazek a samotnou kartu, ktera obsahuje veskere informace (hodnota a barva karty).
 // Dale obsahuje posunuji vuci ose Y.
 public class G_Card {
     private Card card; // Karta - hodnota, barva, odkrytost
@@ -36,7 +36,7 @@ public class G_Card {
     }
 
     // nastaveni posunuti na ose Y
-    public void set_y (int y) { 
+    public void set_y (int y) {
         System.err.println("card set_y"); // jen pomocny vypis
         this.position_y = y;
     }
@@ -44,6 +44,8 @@ public class G_Card {
     // moje funkce na vykresleni, nic by nemela pretezovat
     public void draw (Graphics g, Component c) {
         System.err.println("card paint"); // jen pomocny vypis
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawString("Pokus.", 100, 10);
         this.image.paintIcon(c, g, 0, position_y); // snaha o vykresleni obrazku do tridy typu JComponent s posunutim o position_y
     }
 }
