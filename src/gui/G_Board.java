@@ -13,6 +13,8 @@ import src.gui.G_Card_deck_visible;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
 public class G_Board extends JFrame {
@@ -38,12 +40,18 @@ public class G_Board extends JFrame {
     private G_Card_deck_visible visible_deck;
     private G_Card_deck_hidden  hidden_deck;
 
-    private Board    game;
+    private Board game = new Board();
 
     public G_Board() {
 //        init_menu();
+        getContentPane().setLayout(new FlowLayout());
+        getContentPane().setBackground(new Color(0,120,0));
         int x = 120;
         int y = 174;
+        visible_deck = new G_Card_deck_visible(x, y);
+        hidden_deck  = new G_Card_deck_hidden(x, y);
+        add(hidden_deck);
+        add(visible_deck);
         for (int i = 0; i < 4; i++) {
             color_stacks[i] = new G_Single_color_stack(x, y);
             add(color_stacks[i]);
@@ -52,16 +60,55 @@ public class G_Board extends JFrame {
             working_stacks[i] = new G_Working_stack(x, y);
             add(working_stacks[i]);
         }
-        visible_deck = new G_Card_deck_visible(x, y);
-        hidden_deck  = new G_Card_deck_hidden(x, y);
-        add(visible_deck);
-        add(hidden_deck);
-        setSize(800, 600);
+        setMinimumSize(new Dimension(850, 400));
         setTitle("Solitare by xmatej52 and xmisov00");
-        setBackground(new Color(0, 120, 0));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     //    pack();
+        game.new_game();
+    //    System.out.println(game);
+        repain_all();
+    }
+    
+    private void repain_all() {
+        for (int i = 6; i >= 0; i--) {
+            working_stacks[i].clear();
+            Card c = game.get_working_stack(i, 0);
+            int j = 0;
+            while (!c.is_error_card()) {
+                working_stacks[i].add_card(c, j++);
+                c = game.get_working_stack(i, j);
+            }
+            working_stacks[i].my_repaint();
+        }
+        for (int i = 0; i < 4; i++) {
+            color_stacks[i].clear();
+            Card c = game.get_color_stack(i, 0);
+            int j = 0;
+            while (!c.is_error_card()) {
+                color_stacks[i].add_card(c, j++);
+                c = game.get_color_stack(i, j);
+            }
+            color_stacks[i].my_repaint();
+
+        }
+        Card c = game.get_hidden_deck(0);
+        hidden_deck.clear();
+        int j = 0;
+        while (!c.is_error_card()) {
+            hidden_deck.add_card(c, j++);
+            c = game.get_hidden_deck(j);
+        }
+        hidden_deck.my_repaint();
+
+        c = game.get_visible_deck(0);
+        visible_deck.clear();
+        j = 0;
+        while (!c.is_error_card()) {
+            visible_deck.add_card(c, j++);
+            c = game.get_visible_deck(j);
+        }
+        visible_deck.my_repaint();
     }
 
 /*
