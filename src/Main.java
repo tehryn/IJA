@@ -8,11 +8,8 @@ public class Main {
 //        Console bash = new Console();
 //        Scanner stdin = new Scanner(System.in);
 //        bash.start(stdin);
-    G_Board game = new G_Board();
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-        public void run(){
-            game.setVisible(true);
-        }
-    });
+        G_Board game = new G_Board();
+        game.setVisible(true);
     }
 }
+
