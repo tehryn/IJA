@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class G_Board extends JFrame {
@@ -46,6 +47,7 @@ public class G_Board extends JFrame {
 //        init_menu();
         getContentPane().setLayout(new FlowLayout());
         getContentPane().setBackground(new Color(0,120,0));
+
         int x = 120;
         int y = 174;
         visible_deck = new G_Card_deck_visible(x, y);
@@ -65,7 +67,7 @@ public class G_Board extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     //    pack();
-        game.new_game();
+        game.load_game("saved.txt");
     //    System.out.println(game);
         repain_all();
     }
