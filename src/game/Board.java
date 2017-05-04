@@ -578,7 +578,7 @@ public class Board {
      *             (Color is set to ERR).
      */
     public Card get_working_stack(int id, int idx) {
-        if (idx > -1 && idx < 7) {
+        if (id > -1 && id < 7) {
             return working_stacks[id].get(idx);
         }
         else {
