@@ -3,9 +3,8 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Vector;
+import javax.swing.border.MatteBorder;
 import src.game.Card;
 
 @SuppressWarnings("serial")
@@ -29,26 +28,23 @@ public class G_Single_color_stack extends JPanel {
     public void my_repaint() {
         removeAll();
         G_Card card = null;
-        for (int i = 0; i < stack.size(); i++) {
+        for (int i = stack.size() - 1; i >= 0; i--) {
             card = stack.get(i);
-            card.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    clicked(e);
-                }
-            });
             add(card);
         }
         revalidate();
         repaint();
     }
 
-    private void clicked(MouseEvent e) {
-        for (int i = 0; i < stack.size(); i++) {
-            if (e.getSource() == stack.get(i)) {
-                System.out.println(stack.get(i).get_card());
-                clicked_card = stack.get(i).get_card();
-            }
+    public void set_border() {
+        if (!stack.isEmpty()) {
+            stack.get(stack.size()-1).setBorder(new MatteBorder(2, 2, 2, 2, Color.red));
+        }
+    }
+    
+    public void unset_border() {
+        if (!stack.isEmpty()) {
+            stack.get(stack.size()-1).setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
         }
     }
     
