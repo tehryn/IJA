@@ -201,7 +201,6 @@ public class G_Board extends JLayeredPane {
             unset_hint();
         }
         hint_move = game.help();
-        System.out.println(hint_move);
         switch(hint_move.get_type()) {
             case WW:
                 working_stacks[hint_move.get_from()].set_border(hint_move.get_card(), hint_from_border);
@@ -247,7 +246,7 @@ public class G_Board extends JLayeredPane {
                 break;
             default: break;
         }
-	was_hint = false;
+	     was_hint = false;
     }
 
     /**

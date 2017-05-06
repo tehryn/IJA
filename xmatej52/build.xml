@@ -18,7 +18,7 @@
                 <javac srcdir="${src.dir}" destdir="${build.dir}" />
         </target>
         <target name="run" depends="compile">
-            <java jar="${dist.dir}\xmatej52.jar" fork="true"/>
+            <java jar="${dist.dir}\ija-client.jar" fork="true"/>
         </target>
         <target name="doc">
                 <javadoc destdir="${doc.dir}" >
