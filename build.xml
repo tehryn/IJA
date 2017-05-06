@@ -2,7 +2,7 @@
 <project name="Solitare-xmatej52_xmisov00" default="all" basedir=".">
         <property name="build.dir" location="build" />
         <property name="doc.dir" location="doc" />
-        <property name="dist.dir" location="bin" />
+        <property name="dist.dir" location="dest-client" />
         <property name="src.dir" location="." />
         <target name="clean">
                 <delete dir="${build.dir}" />
@@ -26,9 +26,9 @@
                 </javadoc>
         </target>
         <target name="compile" depends="pre-compile">
-                <jar destfile="${dist.dir}\xmatej52.jar" basedir="${build.dir}">
+                <jar destfile="${dist.dir}\ija-client.jar" basedir="${build.dir}">
                         <manifest>
-                                <attribute name="Main-Class" value="Main" />
+                                <attribute name="Main-Class" value="src.Application" />
                         </manifest>
                 </jar>
         </target>
