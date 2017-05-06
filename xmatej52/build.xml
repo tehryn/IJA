@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="Solitare-xmatej52_xmisov00" default="all" basedir=".">
+        <property name="build.dir" location="build" />
+        <property name="doc.dir" location="doc" />
+        <property name="dist.dir" location="dest-client" />
+        <property name="src.dir" location="." />
+        <target name="clean">
+                <delete dir="${build.dir}" />
+                <delete dir="${doc.dir}" />
+                <delete dir="${dist.dir}" />
+        </target>
+        <target name="makedir">
+                <mkdir dir="${build.dir}" />
+                <mkdir dir="${doc.dir}" />
+                <mkdir dir="${dist.dir}" />
+        </target>
+        <target name="pre-compile" depends="clean, makedir">
+                <javac srcdir="${src.dir}" destdir="${build.dir}" />
+        </target>
+        <target name="run" depends="compile">
+            <java jar="${dist.dir}\xmatej52.jar" fork="true"/>
+        </target>
+        <target name="doc">
+                <javadoc destdir="${doc.dir}" >
+                    <fileset dir="."/>
+                </javadoc>
+        </target>
+        <target name="compile" depends="pre-compile">
+                <jar destfile="${dist.dir}\ija-client.jar" basedir="${build.dir}">
+                        <manifest>
+                                <attribute name="Main-Class" value="src.Application" />
+                        </manifest>
+                </jar>
+        </target>
+        <target name="all" depends="doc, run">
+                <description>Just do it!!!</description>
+        </target>
+</project>
+<!--
+ - Author: Matejka Jiri
+ - login:  xmatej52
+ - school: VUT FIT
+ - date:   6. 5. 2017
+ - content: Ant file
+ -->
