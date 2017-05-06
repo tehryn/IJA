@@ -9,9 +9,16 @@ import src.game.Card;
 
 @SuppressWarnings("serial")
 public class G_Single_color_stack extends JPanel {
+    
+    /// @var Stack of cards
     Vector<G_Card> stack = new Vector<G_Card>();
-    int x, y;
-    Card clicked_card;
+    
+    /// @var Width of cards
+    int x;
+    
+    // @var Height of cards
+    int y;
+    
     G_Single_color_stack(int x, int y) {
        this.x = x;
        this.y = y;
@@ -19,12 +26,20 @@ public class G_Single_color_stack extends JPanel {
        setPreferredSize(new Dimension(x, y));
        setBackground(new Color(0, 80, 0));
     }
-    
+
+    /**
+     * Adds gui representation of card into deck.
+     * @param c     Card that will be added.
+     * @param index 
+     */
     public void add_card(Card c, int index) {
         G_Card gui_card = new G_Card(x, y, c);
         stack.add(index, gui_card);
     }
-    
+
+    /**
+     * Repaints all cards in deck.
+     */
     public void my_repaint() {
         removeAll();
         G_Card card = null;
@@ -35,19 +50,36 @@ public class G_Single_color_stack extends JPanel {
         revalidate();
         repaint();
     }
-
-    public void set_border() {
-        if (!stack.isEmpty()) {
-            stack.get(stack.size()-1).setBorder(new MatteBorder(2, 2, 2, 2, Color.red));
-        }
-    }
     
+    /**
+     * Set border around card on the top of stack. If deck is empty, border will
+     * be around stack.
+     * @param border Border that will be used.
+     */
+    public void set_border(MatteBorder border) {
+        if (!stack.isEmpty()) {
+            stack.get(stack.size()-1).setBorder(border);
+        }
+	else {
+	    setBorder(border);
+	}
+    }
+
+    /**
+     * Restarts border to default value.
+     */
     public void unset_border() {
         if (!stack.isEmpty()) {
             stack.get(stack.size()-1).setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
         }
+	else {
+	    setBorder(null);
+	}
     }
-    
+
+    /**
+     * Removes all cards from deck.
+     */
     public void clear() {
         stack.clear();
     }

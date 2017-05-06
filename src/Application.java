@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -5,9 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import src.gui.G_Board;
-import src.game.Console;
 
-import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -15,16 +15,42 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.border.MatteBorder;
-import src.game.Board;
 
+/**
+ * Class representing application and containing main method.
+ * @author Jiri Matejka, xmatej52
+ */
+@SuppressWarnings("serial")
 public class Application extends JFrame implements ActionListener {
+
+    /// @var Menu bar of app
     private JMenuBar menu_bar = new JMenuBar();
+
+    /// @var 4 games that can be played
     private G_Board[] games   = new G_Board[4];
+
+    /// @var Tells which games are currently played
     private boolean[] currently_open = new boolean[4];
-    int x = 120/2;
-    int y = 174/2;
-    int step = 40/2;
-    public Application() {
+
+    /// @var Width of cards
+    int x;
+
+    /// @var Width of cards
+    int y;
+
+    /// @var Shift of cards in working stack
+    int step;
+
+    /**
+     * Constructor of class.
+     * @param width  Width of cards.
+     * @param height Height of cards.
+     * @param shift  Shift of cards in working stacks.
+     */
+    public Application(int width, int height, int shift) {
+	x = width;
+	y = height;
+	step = shift;
         this.getContentPane().setLayout(null);
         this.getContentPane().setBackground(new Color(0,120,0));
         for(int i = 0; i < 4; i++) {
@@ -44,9 +70,12 @@ public class Application extends JFrame implements ActionListener {
         setTitle("Solitare by xmatej52 and xmisov00");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        set_layout();        
+        set_layout();
     }
-    
+
+    /**
+     * Sets minimum size of window and repaints all compoments in application.
+     */
     private void set_layout() {
         if (currently_open[1] || currently_open[2] || currently_open[3]) {
             setMinimumSize(new Dimension((80 + 7*x)*2+5, (32+2*y+11*step)*2));
@@ -61,57 +90,102 @@ public class Application extends JFrame implements ActionListener {
         }
         repaint();
     }
-    
-    public void init_menu(int id){
+
+    /**
+     * Initializes menu. Adds menus and menu items to menu bar.
+     * @param id of menu item.
+     */
+    private void init_menu(int id){
         JMenu menu = new JMenu("Game" + id);
         menu.setMnemonic(KeyEvent.VK_S);
-
-        JMenuItem menu_item = new JMenuItem("New game", KeyEvent.VK_N);
+        JMenuItem menu_item;
+	if (id == 1) {
+	    menu_item = new JMenuItem("New game", KeyEvent.VK_N);
+	    menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK));
+	}
+	else {
+	    menu_item = new JMenuItem("New game");
+	}
         menu_item.setActionCommand("new"+id);
-        menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK));
         menu_item.addActionListener(this);
         menu.add(menu_item);
 
-        menu_item = new JMenuItem("Open", KeyEvent.VK_O);
+	if (id == 1) {
+	    menu_item = new JMenuItem("Open", KeyEvent.VK_O);
+	    menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK));
+	}
+	else {
+	    menu_item = new JMenuItem("Open");
+	}
+
         menu_item.setActionCommand("open"+id);
-        menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK));
         menu_item.addActionListener(this);
         menu.add(menu_item);
 
-        menu_item = new JMenuItem("Save", KeyEvent.VK_S);
+	if (id == 1) {
+	    menu_item = new JMenuItem("Save", KeyEvent.VK_S);
+	    menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK));
+	}
+	else {
+	    menu_item = new JMenuItem("Save", KeyEvent.VK_S);
+	}
         menu_item.setActionCommand("save"+id);
-        menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK));
-        menu_item.addActionListener(this);
-        menu.add(menu_item);
-        
-        menu_item = new JMenuItem("Leave game", KeyEvent.VK_L);
-        menu_item.setActionCommand("leave"+id);
-        menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_MASK));
-        menu_item.addActionListener(this);
-        menu.add(menu_item);
-        
-        menu_item = new JMenuItem("Undo", KeyEvent.VK_Z);
-        menu_item.setActionCommand("undo"+id);
-        menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK));
-        menu_item.addActionListener(this);
-        menu.add(menu_item);
-        
-        menu_item = new JMenuItem("Hint", KeyEvent.VK_H);
-        menu_item.setActionCommand("hint"+id);
-        menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_MASK));
         menu_item.addActionListener(this);
         menu.add(menu_item);
 
-        menu_item = new JMenuItem("Exit program", KeyEvent.VK_Q);
+	if (id == 1) {
+	    menu_item = new JMenuItem("Leave game", KeyEvent.VK_L);
+	    menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_MASK));
+	}
+	else {
+	    menu_item = new JMenuItem("Leave game");
+	}
+        menu_item.setActionCommand("leave"+id);
+        menu_item.addActionListener(this);
+        menu.add(menu_item);
+
+	if (id == 1) {
+	    menu_item = new JMenuItem("Undo", KeyEvent.VK_Z);
+	    menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK));
+	}
+	else {
+	    menu_item = new JMenuItem("Undo");
+	}
+        menu_item.setActionCommand("undo"+id);
+        menu_item.addActionListener(this);
+        menu.add(menu_item);
+
+	if (id == 1) {
+	    menu_item = new JMenuItem("Hint", KeyEvent.VK_H);
+	    menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_MASK));
+	}
+	else {
+	    menu_item = new JMenuItem("Hint");
+	}
+        menu_item.setActionCommand("hint"+id);
+        menu_item.addActionListener(this);
+        menu.add(menu_item);
+
+	if (id == 1) {
+	    menu_item = new JMenuItem("Exit program", KeyEvent.VK_Q);
+	    menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
+
+	}
+	else {
+	    menu_item = new JMenuItem("Exit program");
+	}
         menu_item.setActionCommand("quit");
-        menu_item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
         menu_item.addActionListener(this);
         menu.add(menu_item);
 
         menu_bar.add(menu);
         setJMenuBar(menu_bar);
     }
-    
+
+    /**
+     * Process use of menu or keyboard shortcuts.
+     * @param e Event that was raised.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
@@ -147,7 +221,7 @@ public class Application extends JFrame implements ActionListener {
               }
             }
         }
-        else if (s.equals("save")) { 
+        else if (s.equals("save")) {
             if (currently_open[id]) {
                 JFileChooser c = new JFileChooser();
                 c.setCurrentDirectory(new File(System.getProperty("user.dir")));
@@ -169,15 +243,20 @@ public class Application extends JFrame implements ActionListener {
                 games[id].undo();
             }
         }
-        else if (s.equals("undo")) {
+        else if (s.equals("hint")) {
             if (currently_open[id]) {
                 games[id].hint();
             }
         }
-      
+
     }
+
+    /**
+     * Displays window with application.
+     * @param args
+     */
     public static void main(String [] args) {
-        Application app = new Application();
+        Application app = new Application(120/2, 174/2, 40/2);
         app.setVisible(true);
     }
 }

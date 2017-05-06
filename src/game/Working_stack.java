@@ -47,7 +47,7 @@ public class Working_stack extends Card_stack {
             return true;
         }
 
-        if ((this.top().get_value() - 1) == card.get_value() && !card.is_similar(this.top())) {
+        if (card.is_visible() && ((this.top().get_value() - 1) == card.get_value() && !card.is_similar(this.top()))) {
             force_push(card);
             return true;
         }
