@@ -10,11 +10,11 @@ import src.game.Card;
 /**
  * Class representing moves. There are 8 possible moves:
  * WW  - Move between two working stacks.<br>
- * CC  - Move between two color stacks.<br>
- * WC  - Move between working stack(from) and color stack(to).<br>
- * CW  - Move between color stack(from) amd working stack(to).<br>
+ * CC  - Move between two colour stacks.<br>
+ * WC  - Move between working stack(from) and colour stack(to).<br>
+ * CW  - Move between colour stack(from) and working stack(to).<br>
  * VW  - Move between visible deck and working stack.<br>
- * VC  - Move between visible deck and color stack.<br>
+ * VC  - Move between visible deck and colour stack.<br>
  * H   - Move representing click on hidden deck. <br>
  * ERR - Invalid move.
  * @author Matejka Jiri (xmatej52)

@@ -17,7 +17,7 @@
         <target name="pre-compile" depends="clean, makedir">
                 <javac srcdir="${src.dir}" destdir="${build.dir}" />
         </target>
-        <target name="run" depends="compile">
+        <target name="run">
             <java jar="${dist.dir}\ija-client.jar" fork="true"/>
         </target>
         <target name="doc">
@@ -25,7 +25,7 @@
                     <fileset dir="."/>
                 </javadoc>
         </target>
-        <target name="compile" depends="pre-compile">
+        <target name="compile" depends="pre-compile, doc">
                 <jar destfile="${dist.dir}\ija-client.jar" basedir="${build.dir}">
                         <manifest>
                                 <attribute name="Main-Class" value="src.Application" />

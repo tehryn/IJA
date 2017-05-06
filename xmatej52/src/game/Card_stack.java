@@ -17,6 +17,7 @@ import java.lang.Math;
  * @author Matejka Jiri (xmatej52)
  */
 public class Card_stack {
+
     /// @var Vector of cards in class.
     protected Vector<Card> stack = new Vector<Card>(0);
 
@@ -82,7 +83,7 @@ public class Card_stack {
     /**
      * Retrieve card from top of stack.
      * @return Card from top, if stack is empty, invalid card is returned
-     *         (Card of color ERR).
+     *         (Card of colour ERR).
      */
     public Card top() {
         if (this.stack.size() > 0) {
@@ -96,7 +97,7 @@ public class Card_stack {
     /**
      * Retrieve card from bottom of stack.
      * @return Card from bottom, if stack is empty, invalid card is returned
-     *         (Card of color ERR).
+     *         (Card of colour ERR).
      */
     public Card bottom() {
         if (this.stack.size() > 0) {
@@ -132,7 +133,7 @@ public class Card_stack {
     /**
      * Retrieve card from specific index,
      * @param  idx Index of card.
-     * @return     In case on succes, card is returned, otherwise card with color
+     * @return     In case on success, card is returned, otherwise card with colour
      *             of ERR is returned.
      */
     public Card get(int idx) {

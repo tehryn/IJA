@@ -1,6 +1,6 @@
 /*
- * Author: Matejka Jiri
- * login:  xmatej52
+ * Author: Miroslava Misova, Matejka Jiri
+ * login:  xmisov00, xmatej52
  * school: VUT FIT
  * date:   6. 5. 2017
  * content: GUI representation of card.
@@ -15,10 +15,11 @@ import src.game.Card;
 
 /**
  * Class representing card.
- * @author Matejka Jiri (xmatej52)
+ * @author Misova Miroslava (xmisov00), Matejka Jiri (xmatej52)
  */
 @SuppressWarnings("serial")
 public class G_Card extends JLabel {
+
     /// @var Width of card
     int x;
 
@@ -56,7 +57,7 @@ public class G_Card extends JLabel {
 
     /**
      * Paints card and resizes it.
-     * @param g Graphocs that will be painted.
+     * @param g Graphics that will be painted.
      */
     @Override
     public void paintComponent(Graphics g)

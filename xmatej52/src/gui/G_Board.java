@@ -1,6 +1,6 @@
 /*
- * Author: Matejka Jiri
- * login:  xmatej52
+ * Author: Miroslava Misova, Matejka Jiri
+ * login:  xmisov00, xmatej52
  * school: VUT FIT
  * date:   6. 5. 2017
  * content: GUI representation one game.
@@ -25,7 +25,7 @@ import javax.swing.border.MatteBorder;
 
 /**
  * Class representing one game.
- * @author Matejka Jiri (xmatej52)
+ * @author Miroslava Misova (xmisov00), Matejka Jiri (xmatej52)
  */
 @SuppressWarnings("serial")
 public class G_Board extends JLayeredPane {
@@ -42,7 +42,7 @@ public class G_Board extends JLayeredPane {
     /// @var 7 working stacks
     private G_Working_stack[] working_stacks    = new G_Working_stack[7];
 
-    /// @var 4 color stacks
+    /// @var 4 colour stacks
     private G_Single_color_stack[] color_stacks = new G_Single_color_stack[4];
 
     /// @var visible deck
@@ -94,7 +94,7 @@ public class G_Board extends JLayeredPane {
      * Class representing single stacks (decks).<br>
      * Can hold these values:<br>
      * W - Working stack<br>
-     * C - Color stack<br>
+     * C - Colour stack<br>
      * H - Hidden deck<br>
      * V - Visible deck<br>
      * ERR - Invalid deck
@@ -280,7 +280,7 @@ public class G_Board extends JLayeredPane {
     }
 
     /**
-     * Process click on color stack.
+     * Process click on colour stack.
      * @param e Event created by click.
      */
     private void clicked_on_color(MouseEvent e) {
@@ -504,7 +504,7 @@ public class G_Board extends JLayeredPane {
     }
 
     /**
-     * Reloads data to color stack and repaints it.
+     * Reloads data to colour stack and repaints it.
      * @param i ID of working stack.
      */
     private void repaint_color(int i) {

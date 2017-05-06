@@ -11,15 +11,15 @@ import src.game.Card_stack;
 
 
 /**
- * Class representing stack of card with multiple colors.
+ * Class representing stack of card with multiple colours.
  * @author Matejka Jiri (xmatej52)
  */
 public class Working_stack extends Card_stack {
 
     /**
      * Pushes stack of cards into stack.
-     * @param  stack Stack of cards tha will be pushed.
-     * @return       True on succes, false on invalid operation.
+     * @param  stack Stack of cards that will be pushed.
+     * @return       True on success, false on invalid operation.
      */
     public boolean push(Working_stack stack) {
         Card card = stack.bottom();
@@ -39,7 +39,7 @@ public class Working_stack extends Card_stack {
      /**
       * Pushes card into stack.
       * @param  card Card that will be pushed.
-      * @return      True on succes, false on invalid operation.
+      * @return      True on success, false on invalid operation.
       */
     public boolean push(Card card) {
         if (this.size() == 0 && card.get_value() == 13) {

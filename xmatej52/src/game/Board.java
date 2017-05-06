@@ -28,7 +28,7 @@ import java.io.PrintWriter;
  * Class representing table with cards. Methods represents all possible moves,
  * player can do. When constructed, no cards are on table.
  * There are seven working stacks, IDs from 0 to 6,<br>
- * four color stacks, IDs from 0 to 3,<br>
+ * four colour stacks, IDs from 0 to 3,<br>
  * one visible deck and one hidden deck. <br>
  * Object of Board also holds history of moves and current score.
  * @author Matejka Jiri (xmatej52)
@@ -37,7 +37,7 @@ public class Board {
     /// @var Array of working stacks.
     protected Working_stack[] working_stacks    = new Working_stack[7];
 
-    /// @var Array of color stacks.
+    /// @var Array of colour stacks.
     protected Single_color_stack[] color_stacks = new Single_color_stack[4];
 
     /// @var Deck of visible cards.
@@ -272,14 +272,13 @@ public class Board {
     /**
      * Moves card(s) between two working packs. Moves all cards until specific
      * card is reached. When false was returned, no changes were made.
-     * @param  from From wich pack cards will be taken.
+     * @param  from From which pack cards will be taken.
      * @param  to   To which pack cards will be added.
      * @param  card Specific card used as a guard.
-     * @return      True on succes, False on invalid operation.
+     * @return      True on success, False on invalid operation.
      */
     public boolean fromW_toW(int from, int to, Card card) {
         if (from > 7 || to > 7 || to < 0 || from < 0 || card.is_error_card()) {
-            System.out.println("Chyba v prvni podmince");
             return false;
         }
         Working_stack tmp = working_stacks[from].pop_until(card);
@@ -305,11 +304,11 @@ public class Board {
     }
 
     /**
-     * Moves card between two color packs. Only ace can be moved. When false is
+     * Moves card between two colour packs. Only ace can be moved. When false is
      * returned, no changes were made.
      * @param  from From which pack card will be taken.
      * @param  to   To which pack card will be added.
-     * @return      True on succes, False on invalid operation.
+     * @return      True on success, False on invalid operation.
      */
     public boolean fromC_toC(int from, int to) {
         if (color_stacks[to].push(color_stacks[from].top())) {
@@ -323,11 +322,11 @@ public class Board {
     }
 
     /**
-     * Moves card from Working pack to Color pack. When false is returned, no
+     * Moves card from working pack to colour pack. When false is returned, no
      * changes were made.
      * @param  from From which pack card will be taken.
      * @param  to   To which pack card will be added.
-     * @return      True on succes, false on invalid operation.
+     * @return      True on success, false on invalid operation.
      */
     public boolean fromW_toC(int from, int to) {
         if (from >= 7 || to >= 4 || from < 0 || to < 0) {
@@ -350,11 +349,11 @@ public class Board {
     }
 
     /**
-     * Moves card from color pack to working pack. When false is returned, no
+     * Moves card from colour pack to working pack. When false is returned, no
      * changes were made.
      * @param  from From which pack card will be taken.
      * @param  to   To which pack card will be added.
-     * @return      True on succes, false on invalid operation.
+     * @return      True on success, false on invalid operation.
      */
     public boolean fromC_toW(int from, int to) {
         if (from > 3 || to > 6 || from < 0 || to < 0) {
@@ -406,10 +405,10 @@ public class Board {
 
 
     /**
-     * Represents move from visible deck to color stack. Pops card from visible
-     * deck and pushes it into specific color stack.
-     * @param  to ID of color stack where card will be pushed.
-     * @return    True on succes otherwise false.
+     * Represents move from visible deck to colour stack. Pops card from visible
+     * deck and pushes it into specific colour stack.
+     * @param  to ID of colour stack where card will be pushed.
+     * @return    True on success otherwise false.
      */
     public boolean fromV_toC(int to) {
         if (to < 0 || to > 3) {
@@ -430,7 +429,7 @@ public class Board {
      * Represents move from visible deck to working stack. Pops card from visible
      * deck and pushes it into specific working stack.
      * @param  to ID of working stack where card will be pushed.
-     * @return    True on succes otherwise false.
+     * @return    True on success otherwise false.
      */
     public boolean fromV_toW(int to) {
         if (to < 0 || to > 7) {
@@ -448,9 +447,9 @@ public class Board {
     }
 
     /**
-     * Undo operation. Can be used multipe times. If game is loaded, undo cannot
+     * Undo operation. Can be used multiple times. If game is loaded, undo cannot
      * be done to states of game that was before saving.
-     * @return Move that was undon.
+     * @return Move that was undone.
      */
     public Move undo() {
         Move move = history.pop();
@@ -519,8 +518,8 @@ public class Board {
 
     /**
      * Returns one of possible moves. If no move is possible, invalid move is
-     * returned (type fo move is INV). Only moves between 2 working stacks,
-     * working stack and color stack, visible deck and color stack can be returned.
+     * returned (type of move is INV). Only moves between 2 working stacks,
+     * working stack and colour stack, visible deck and colour stack can be returned.
      * @return One of possible moves.
      */
     public Move help() {
@@ -576,7 +575,7 @@ public class Board {
      * Retrieve specific card from working stack
      * @param  id  ID of working stack.
      * @param  idx Index of card in working stack.
-     * @return     Card from index on succes, otherwise returns invalid card
+     * @return     Card from index on success, otherwise returns invalid card
      *             (Color is set to ERR).
      */
     public Card get_working_stack(int id, int idx) {
@@ -589,10 +588,10 @@ public class Board {
     }
 
     /**
-     * Retrieve specific card from color stack
-     * @param  id  ID of color stack.
-     * @param  idx Index of card in color stack.
-     * @return     Card from index on succes, otherwise returns invalid card
+     * Retrieve specific card from colour stack
+     * @param  id  ID of colour stack.
+     * @param  idx Index of card in colour stack.
+     * @return     Card from index on success, otherwise returns invalid card
      *             (Color is set to ERR).
      */
     public Card get_color_stack(int id, int idx) {
@@ -621,7 +620,7 @@ public class Board {
     /**
      * Retrieve card from hidden deck.
      * @param  idx Index of card in deck.
-     * @return     Card from index on succes, otherwise returns invalid card
+     * @return     Card from index on success, otherwise returns invalid card
      *             (Color is set to ERR).
      */
     public Card get_hidden_deck(int idx) {
@@ -631,7 +630,7 @@ public class Board {
     /**
      * Retrieve card from visible deck.
      * @param  idx Index of card in deck.
-     * @return     Card from index on succes, otherwise returns invalid card
+     * @return     Card from index on success, otherwise returns invalid card
      *             (Color is set to ERR).
      */
     public Card get_visible_deck(int idx) {
@@ -640,7 +639,7 @@ public class Board {
 
     /**
      * Retrieve score of game.
-     * @return value of scor.
+     * @return value of score.
      */
     public int get_score() {
         return score;

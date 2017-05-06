@@ -31,7 +31,7 @@ public class History {
 
     /**
      * Removes one move from history.
-     * @return Removed move on succes, otherwise return move representing
+     * @return Removed move on success, otherwise return move representing
      *         error.
      */
     public Move pop() {

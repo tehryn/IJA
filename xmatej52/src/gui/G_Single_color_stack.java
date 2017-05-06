@@ -1,9 +1,9 @@
 /*
- * Author: Matejka Jiri
- * login:  xmatej52
+ * Author: Misova Miroslava, Matejka Jiri
+ * login:  xmisov00, xmatej52
  * school: VUT FIT
  * date:   6. 5. 2017
- * content: GUI representation of single color stack.
+ * content: GUI representation of single colour stack.
  */
 package src.gui;
 import java.awt.CardLayout;
@@ -15,8 +15,8 @@ import javax.swing.border.MatteBorder;
 import src.game.Card;
 
 /**
- * Class representing Single color stack.
- * @author Matejka Jiri (xmatej52)
+ * Class representing Single colour stack.
+ * @author Misova Miroslava (xmisov00), Matejka Jiri (xmatej52)
  */
 @SuppressWarnings("serial")
 public class G_Single_color_stack extends JPanel {

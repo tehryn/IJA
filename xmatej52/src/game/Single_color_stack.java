@@ -10,7 +10,7 @@ import src.game.Card.Color;
 import src.game.Card_stack;
 
 /**
- * Class representing stack of color cards with same color.
+ * Class representing stack of colour cards with same colour.
  * @author Matejka Jiri (xmatej52)
  */
 public class Single_color_stack extends Card_stack {
@@ -21,7 +21,7 @@ public class Single_color_stack extends Card_stack {
     /**
      * Pushes card into stack.
      * @param card Card that will be pushed.
-     * @return     True on succes, otherwise False.
+     * @return     True on success, otherwise False.
      */
     public boolean push(Card card) {
         if (this.size() == 0) {
@@ -44,8 +44,8 @@ public class Single_color_stack extends Card_stack {
     }
 
     /**
-     * Retrieve color of this stack.
-     * @return Color of stack.
+     * Retrieve colour of this stack.
+     * @return Colour of stack.
      */
     public Color get_color() {return this.color;}
 }

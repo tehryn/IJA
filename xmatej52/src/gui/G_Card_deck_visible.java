@@ -1,6 +1,6 @@
 /*
- * Author: Matejka Jiri
- * login:  xmatej52
+ * Author: Misova Miroslava, Matejka Jiri
+ * login:  xmisov00, xmatej52
  * school: VUT FIT
  * date:   6. 5. 2017
  * content: GUI representation of visible deck.
@@ -16,7 +16,7 @@ import src.game.Card;
 
 /**
  * Class representing deck of visible cards.
- * @author Matejka Jiri (xmatej52)
+ * @author Misova Miroslava (xmisov00), Matejka Jiri (xmatej52)
  */
 @SuppressWarnings("serial")
 public class G_Card_deck_visible extends JPanel {
@@ -27,13 +27,13 @@ public class G_Card_deck_visible extends JPanel {
     /// @var Width of cards
     int x;
 
-    // @var Heigth of cards
+    // @var Height of cards
     int y;
 
     /**
      * Constructor of class.
      * @param x Width of cards.
-     * @param y Heigth of cards.
+     * @param y Height of cards.
      */
     G_Card_deck_visible(int x, int y) {
        this.x = x;

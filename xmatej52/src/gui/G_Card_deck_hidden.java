@@ -1,6 +1,6 @@
 /*
- * Author: Matejka Jiri
- * login:  xmatej52
+ * Author: Misova Miroslava, Matejka Jiri
+ * login:  xmisov00, xmatej52
  * school: VUT FIT
  * date:   6. 5. 2017
  * content: GUI representation of hidden deck.
@@ -17,7 +17,7 @@ import src.game.Card;
 
 /**
  * Class representing hidden deck
- * @author Matejka Jiri (xmatej52)
+ * @author Misova Miroslava (xmisov00), Matejka Jiri (xmatej52)
  */
 @SuppressWarnings("serial")
 public class G_Card_deck_hidden extends JPanel {

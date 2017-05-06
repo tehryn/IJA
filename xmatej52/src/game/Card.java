@@ -8,25 +8,25 @@
 package src.game;
 
 /**
- * Object representing Card. Card has value, color and visibility. <br>
+ * Object representing Card. Card has value, colour and visibility. <br>
  * Value is from 0 to 13, where 0 represents invalid card. <br>
- * Colors are ERR, CLUBS, DIAMONDS, HEARTS and SPADES, where ERR represents
+ * Colours are ERR, CLUBS, DIAMONDS, HEARTS and SPADES, where ERR represents
  * invalid card. <br>
  * Visibility tells if card with its face up or not. Has values true and false. <br>
- * For checking validity of card, please use always color and looks for value
+ * For checking validity of card, please use always colour and looks for value
  * ERR.
  * @author Matejka Jiri (xmatej52)
  */
 public class Card {
     /**
-     * Enum representing color of cards.
+     * Enum representing colour of cards.
      */
     public static enum Color {
         ERR, CLUBS, DIAMONDS, HEARTS, SPADES;
 
         /**
-         * Converts color into string.
-         * @return String representing color.
+         * Converts colour into string.
+         * @return String representing colour.
          */
         public String toString() {
             switch(this) {
@@ -39,9 +39,9 @@ public class Card {
         }
 
         /**
-         * Checks if colors of 2 cards are similar.
+         * Checks if colours of 2 cards are similar.
          * @param   c Second card
-         * @return    True if colors are similar, otherwise false.
+         * @return    True if colours are similar, otherwise false.
          */
         public boolean is_similar(Card c) {
             Color color = c.color;
@@ -57,22 +57,22 @@ public class Card {
         }
     };
 
-    /// @var Represents alue of card.
+    /// @var Represents value of card.
     protected int value          = 0;
-    /// @var Represents color of card.
+    /// @var Represents colour of card.
     protected Card.Color color   = Color.ERR;
     /// @var Represents visibility of card.
     protected boolean visibility = false;
 
     /**
-     * Constructor of Card. Sets value to 0, color to ERR and visibility to false.
+     * Constructor of Card. Sets value to 0, colour to ERR and visibility to false.
      */
     public Card(){}
 
     /**
      * Constructor of Card. Sets visibility to false.
      * @param  value Value of new card.
-     * @param  color Color of new card.
+     * @param  color Colour of new card.
      */
     public Card(int value, Card.Color color) {
         this.value = value;
@@ -86,13 +86,13 @@ public class Card {
     public int get_value() { return this.value; }
 
     /**
-     * Retrieve color of card.
-     * @return color of card.
+     * Retrieve colour of card.
+     * @return colour of card.
      */
     public Color get_color() { return this.color; }
 
     /**
-     * Retrive visibility of card.
+     * Retrieve visibility of card.
      * @return True if card is visible, otherwise false.
      */
     public boolean is_visible() { return this.visibility; }
@@ -108,9 +108,9 @@ public class Card {
     public void make_hidden() { this.visibility = false; }
 
     /**
-     * Checks if cards has similar colors.
+     * Checks if cards has similar colours.
      * @param  card Second card.
-     * @return      True of cards colors are similar, otherwise false.
+     * @return      True if cards colours are similar, otherwise false.
      */
     public boolean is_similar(Card card) {
         if (this.is_visible()) {
@@ -131,7 +131,7 @@ public class Card {
     }
 
     /**
-     * Arrange propre hassing of card.
+     * Arrange proper hashing of card.
      * @return Something...
      */
     public int hashCode() {
@@ -139,7 +139,7 @@ public class Card {
     }
 
     /**
-     * Check if card has invalid color or value
+     * Check if card has invalid colour or value
      * @return True if card is invalid, otherwise false.
      */
     public boolean is_error_card() {

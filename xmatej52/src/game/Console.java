@@ -27,7 +27,7 @@ import java.util.Scanner;
  * Card_stacks represent working (W), color (C), hidden (H) or visible (V) deck.<br>
  * Card_stack1 represents deck from which card(s) will be taken<br>
  * Card_stack2 represents deck to which card(s) will be added<br>
- * FROM is ID of Card_stack1 (0-6 when Card_stack1 is working, 0-3 when Card_stack1 is color)<br>
+ * FROM is ID of Card_stack1 (0-6 when Card_stack1 is working, 0-3 when Card_stack1 is colour)<br>
  * TO is ID of same values as FROM, but represents ID of Card_stack2<br>
  * CARD is only used when moving card(s) between 2 working stacks<br>
  * and all cards until CARD is reached will be moved between them<br>
@@ -41,17 +41,17 @@ public class Console {
     public static Card err;
 
     /**
-     * Procces command and return, if command was valide. Most of parametrs
+     * Process command and return, if command was valid. Most of parameters
      * are optional. If function can decide what to move, function will do it.
-     * Function only reads parametrs that are usefull, for example it only reads
-     * card parametr whe user wants to move between two working stacks.
+     * Function only reads parameters that are useful, for example it only reads
+     * card parameter when user wants to move between two working stacks.
      * @param  cmd1 definition of command (move, print, help, ...).
      * @param  cmd2 filename or source stack.
      * @param  from id of source stack
      * @param  cmd3 destination stack
-     * @param  to   id of destination stak
+     * @param  to   id of destination stack
      * @param  card Card that will be moved (only used when moving between 2 stacks)
-     * @return      True on succes otherwise returns false.
+     * @return      True on success otherwise returns false.
      */
     public boolean command(String cmd1, String cmd2, int from, String cmd3, int to, Card card) {
         boolean ret = false;
@@ -126,7 +126,7 @@ public class Console {
     /**
      * Parse string and call command function.
      * @param  str String representing command.
-     * @return     Retrun value of command function.
+     * @return     Returns value of command function.
      */
     public boolean string_to_command(String str) {
         int size = str.length();
